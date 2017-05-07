@@ -1,0 +1,49 @@
+<xml>
+	<surnotes>
+		<survivor>{name} fought back the reaper, Not Today Death!</survivor>
+		<survivor>Despite crippling odds, {name} is still alive!</survivor>
+		<survivor>{name} keeps on keeping on!</survivor> 
+		<survivor>{name} beat Death with their own cold hand</survivor>
+		<survivor>{name} lives to see another day</survivor>
+		<survivor>{name} Beat Death in a game of chess!</survivor>
+		<survivor>{name} narrowly avoided The Reaper!</survivor>
+		<survivor>{name} had a dance off with Death and won!</survivor>
+		<survivor>{name} had a dance off with Death and won!</survivor>
+		<survivor>What do you mean {name} survived? I had my bets on them dying!</survivor>
+		<survivor>After constructing a series of tubes and rods, {name} managed to extend there life for another day!</survivor>
+		<survivor>Long story short, that's how {name} survived another day!</survivor>
+		<survivor>{name} withered away while fighting the Ender Dragon</survivor>
+		<survivor>{name} found the fountain of youth! Sadly only a days supply was left.</survivor>
+		<survivor>{name} drank from their trusty Goddard Futuristics canteen"</survivor>
+		<survivor>{name} almost died of starvation, but then saw a sandwich</survivor>
+		<survivor>At this point, let's just assume {name} is still alive</survivor>
+		<survivor>Okay, I've run out of funny things! but the good news is {name} didn't die!</survivor>
+		<survivor>Never one to turn down a bet, {name} bet the odds and got out of cleaning the aft deck for a month!</survivor>
+		<survivor>{name}Bent down to pick up a penny just as a rocket blasted over their head!</survivor>
+	</surnotes>
+	<deathnotes>
+		<deathnote>[{name} exits pursued by bears]</deathnote>
+		<deathnote>{name} was tossed out the airlock</deathnote>
+		<deathnote>{name} was sucked out during an airlock malfunction</deathnote>
+		<deathnote>{name} gave them the stick</deathnote>
+		<deathnote>{name} fought the law, and the law won</deathnote>
+		<deathnote>{name} couldn't fight their way out of a wet bag</deathnote>
+		<deathnote>{name} tried to break the record for most nights without sleep</deathnote>
+		<deathnote>{name}'s final words 'Ducks, why did it have to be Ducks.</deathnote>
+		<deathnote>{name}'s final word "I hide all the cigarettes in the..."</deathnote>
+		<deathnote>{name}'s final word "Rosebud"</deathnote>
+		<deathnote>Never one to turn down a bet, {name} choked on a mouth full of marshmallows</deathnote>
+		<deathnote>{name} was over confident and misjudged the distance between their mouth and the fork</deathnote>
+		<deathnote>{name} tripped over their own feet</deathnote>
+		<deathnote>{name} took off his helmet</deathnote>
+		<deathnote>{name} opened the door</deathnote>
+		<deathnote>{name} lit a cigarette in a pure oxygen enviroment</deathnote>
+		<deathnote>{name} went on a rampage</deathnote>
+		<deathnote>{name} doesn't know the difference between inflammable and non-flammable</deathnote>
+		<deathnote>{name} was vored by the plant monster</deathnote>
+		<deathnote>{name} vored themselves to death</deathnote>
+		<deathnote>{name} asked the question</deathnote>
+		<deathnote>{name} fell on their own face</deathnote>
+	</deathnotes>
+</xml>
+	
