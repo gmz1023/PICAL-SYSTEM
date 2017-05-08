@@ -5,7 +5,7 @@ Database Constants
 error_reporting(E_ALL);
 define("DB_HOST", 'localhost');
 define("DB_USER", 'root');
-define("DB_PASS", 'prebion3!');
+define("DB_PASS", '');
 define("DB_NAME", "lurch");
 #define("DB_STRING", 'mysql:host=localhost;dbname=my_guitar_shop1');
 /* Extra Information 
