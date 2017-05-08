@@ -153,6 +153,7 @@ class virus
 		{
 			$data .= $v.',';
 		}
+		print_r($data);
 		$sql .= trim ($data,',');
 		$sql .= ") AND cit.infected <> 0 AND cit.cid = c.cid ;";
 		try { 

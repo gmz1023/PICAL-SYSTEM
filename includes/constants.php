@@ -5,9 +5,9 @@ Database Constants
 error_reporting(E_ALL);
 define("DB_HOST", 'localhost');
 define("DB_USER", 'root');
-define("DB_PASS", '');
+define("DB_PASS", 'prebion3!');
 define("DB_NAME", "lurch");
-define("DB_STRING", 'mysql:host=localhost;dbname=my_guitar_shop1');
+#define("DB_STRING", 'mysql:host=localhost;dbname=my_guitar_shop1');
 /* Extra Information 
 	2 = Everything shown (Death Messages, Infected, Pregenancy)
 	1 = Some things shown
@@ -15,7 +15,7 @@ define("DB_STRING", 'mysql:host=localhost;dbname=my_guitar_shop1');
 	
 */
 define("GAY_SEX", 'on');
-define("extra_info",9);
+define("extra_info",30);
 /* Sleep State 
 	Turn off if you want to have quick simulations [IE For debugging or general data gathering]
 	turn on if you plan on watching longer simulations (IE will be running for a while)
@@ -24,7 +24,7 @@ define("extra_info",9);
 	if changing the type == it switchs from seconds to milliseconds (or micro? nano? FIK);
 	1 second = 1000000;
 */
-define("sleep_state", 'debug'); /* On/Off */
+define("sleep_state", 'off'); /* On/Off */
 define("sleep_type", 's'); /* u uses usleep | s uses sleep default at s */
 switch(sleep_state)
 {

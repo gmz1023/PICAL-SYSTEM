@@ -39,7 +39,7 @@ if($db->commit())
 {
 	echo "Resetting...\n";
 }
-	
+exit;	
 	} catch(PDOException $e) { 
 	$db->rollBack();
 	echo die('Reset Failure: '.$e->getMessage()); }
