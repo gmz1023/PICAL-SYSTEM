@@ -8,14 +8,15 @@ $sql1 = "UPDATE
 			s.food = 1000,
 			s.water = 1000,
 			s.air = 1000,
+			s.COTwo = 0,
 			s.medicine = 1000,
-			c.relstat = 1, 
+			c.relstat = 1,
+			c.status = 1,
 			c.spouse_id = NULL, 
 			c.born_on = '0982-00-00 00:00:00', 
 			c.health = 100, 
 			c.thirst = 100,
 			c.hunger = 100,
-			c.air = 100,
 			c.infected = 0,
 			c.pregnant_on = NULL,
 			c.cod = NULL,
@@ -38,6 +39,7 @@ try {
 if($db->commit())
 {
 	echo "Resetting...\n";
+	#include('run.php');
 }
 exit;	
 	} catch(PDOException $e) { 

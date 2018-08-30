@@ -53,7 +53,7 @@ if($population == 0)
 	{
 	sleep(1);
 	include('reset.php');
-	sleep(2);
+	sleep(1);
 	include('run.php');
 	}
 }

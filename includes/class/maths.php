@@ -42,7 +42,7 @@ class maths extends simulation
 		$dead = $this->getStatCount(0);
 		$cod = $this->leadinCOD();
 		$LS = $this->successfulName();
-	$sql = "INSERT INTO stats(time_step,it,cycle,pop, pregnant,dead, topDeathCause,lastName,sucessors) values ('{$ts}','{$_SESSION['it']}','{$_SESSION['loop']}', '{$this->population}', {$preg},{$dead}, '{$cod}','{$LS['LS']}','{$LS['LST']}');";
+	$sql = "INSERT INTO stats(time_step,it,cycle,pop, pregnant,dead, topDeathCause,last_name,sucessors) values ('{$ts}','{$_SESSION['it']}','{$_SESSION['loop']}', '{$this->population}', {$preg},{$dead}, '{$cod}','{$LS['LS']}','{$LS['LST']}');";
 	try { 
 		
 		if($this->db->exec($sql))
@@ -70,7 +70,7 @@ class maths extends simulation
 	function selectInfectedPop()
 	{
 		/* Used for Info and basic functions */
-		$sql = "SELECT count(cid) as pop FROM citizens WHERE infected  <> 0 AND relstat <> 0";
+		$sql = "SELECT count(cid) as pop FROM citizens WHERE infected  <> 0 AND status = 1";
 		$que = $this->db->prepare($sql);
 		try { 
 		$que->execute(); 
@@ -93,7 +93,7 @@ class maths extends simulation
 	function totalPopulation()
 	{
 		/* Used for Info and basic functions */
-		$sql = "SELECT count(cid) as pop FROM citizens WHERE relstat  <> 0";
+		$sql = "SELECT count(cid) as pop FROM citizens WHERE status = 1";
 		$que = $this->db->prepare($sql);
 		try { 
 		$que->execute(); 

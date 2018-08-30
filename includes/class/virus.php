@@ -1,5 +1,5 @@
 <?php
-class virus
+class virus extends enviroment
 {
 	
 	function virusCount()

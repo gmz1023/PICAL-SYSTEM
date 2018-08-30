@@ -12,8 +12,10 @@ class simulation extends map
 		{
 			if($this->marryCitizens())
 			{
+				
 				if($this->getHealthyCouples())
 				{
+				
 					$this->run_the_guanlet();
 				}
 				else

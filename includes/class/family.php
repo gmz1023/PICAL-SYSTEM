@@ -8,6 +8,16 @@ class family extends pregancy
 			Manages Genetic Disorders (AIDS, Cancers, ETC)
 			
 	*/
+	function getSpouse($cid)
+	{
+		$sql = "SELECT cid FROM citizens WHERE spouse_id = {$cid}";
+		$que = $this->db->prepare($sql);
+		try { $que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row['cid'];
+			}
+		catch(PDOException $e){}
+	}
 	function getParents($cid)
 	{
 		$sql = "SELECT mother_id as mom, father_id as dad FROM citizens WHERE cid = :cid";
@@ -19,33 +29,6 @@ class family extends pregancy
 
 		}catch(PDOException $e) {}
 	}	
-	function MarriagePropose()
-	{
-		$sql = "SELECT
-				(SELECT DISTINCT h.cid FROM citizens) as hid,
-				(SELECT DISTINCT w.cid FROM citizens) as wid
-			 FROM
-				citizens as h,
-				citizens as w
-			  WHERE
-				((w.father_id <> h.father_id) OR (w.father_id = 0 AND h.father_id = 0))
-				AND
-				((w.mother_id <> h.mother_id)OR (w.mother_id = 0 AND h.mother_id = 0))
-				AND
-				(w.relstat = '1'
-				AND
-				h.relstat = '1');";
-		$que = $this->db->prepare($sql);
-		try {
-			$que->execute();
-			$singles = [];
-			while($row = $que->fetch(PDO::FETCH_ASSOC))
-			{
-				$singles[] = $row;
-			}
-		}catch(PDOException $e) { echo $e->getMessage();}
-		return $singles;
-	}
 	function genderedSingles($g)
 	{
 		$sql = "SELECT DISTINCT cid FROM citizens WHERE gender = '{$g}' AND relstat = 1 ORDER BY RAND()";
@@ -68,7 +51,7 @@ class family extends pregancy
 	function divorce($cid)
 	{
 		//* Right now this is used for Dead People
-		$sql = "UPDATE citizens SET relstat = 1 WHERE (cid = {$cid} AND relstat <> 0) OR spouse_id = {$cid}";
+		$sql = "UPDATE citizens SET relstat = 1 WHERE (cid = {$cid} AND status = 1) OR spouse_id = {$cid}";
 		$que = $this->db->prepare($sql);
 		try { $que->execute();} catch(PDOException $e) { die($e->getMessage());}
 	}
@@ -91,20 +74,25 @@ class family extends pregancy
 							$cit2 = $men[mt_rand(0,(count($men)-1))];
 							if($cit1 <> $cit2)
 							{
-							$cit1age = $this->citizenAge($cit1);
-							$cit2age = $this->citizenAge($cit2);
-								if(($cit1age >= 18) && ($cit2age >= 18))
+								$po1 =  $this->getCitizenTile($cit1);
+								$po2 = 	$this-> getCitizenTile($cit2);
+								if($po1 == $po2)
 								{
-									$this->updateSpouse($cit1, $cit2);
-									$this->updateSpouse($cit2,$cit1);
-										$name1 = $this->getname($cit1);
-										$name2 = $this->getname($cit2);
-										$men = $this->genderedSingles('m');
-										$woman = $this->genderedSingles('f');
-										$text = "{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
-									$this->message($text,'happy',2);
-										/* Future Proofing this for later "Gay Marriage" */
+									$cit1age = $this->citizenAge($cit1);
+									$cit2age = $this->citizenAge($cit2);
+									if(($cit1age >= 18) && ($cit2age >= 18))
+									{
+										$this->updateSpouse($cit1, $cit2);
+										$this->updateSpouse($cit2,$cit1);
+											$name1 = $this->getname($cit1);
+											$name2 = $this->getname($cit2);
+											$men = $this->genderedSingles('m');
+											$woman = $this->genderedSingles('f');
+											$text = "{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
+										$this->message($text,'happy',2);
+											/* Future Proofing this for later "Gay Marriage" */
 
+									}
 								}
 							}
 	

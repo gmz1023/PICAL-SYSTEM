@@ -50,6 +50,21 @@ class citizens extends family
 		
 
 	}
+//* Why Wasn't This A Function Already
+	function checkStatus($cid)
+	{
+		$sql = "SELECT status FROM citizens WHERE cid = {$cid}";
+		$que = $this->db->prepare($sql);
+		try { 
+				$que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			return $row['status'];
+			}
+		catch(PDOException $e)
+		{
+			
+		}
+	}
 	/************************************************
 	
 		Intelligence Functions
@@ -133,7 +148,7 @@ class citizens extends family
 		******************************************/
 	function interpersonal($cit1,$cit2,$action)
 	{
-		$sql = "INSERT INTO table (cit1,cit2,value) VALUES ({$cit1}, {$cit2}, 1) ON DUPLICATE KEY UPDATE weight = weight+{$action}";
+		$sql = "INSERT INTO relationship (cit1,cit2,value) VALUES ({$cit1}, {$cit2}, 1) ON DUPLICATE KEY UPDATE weight = weight+{$action}";
 		try { $this->db->exec($sql);}catch(PDOException $e) { echo $e->getMessage();}
 		
 	}

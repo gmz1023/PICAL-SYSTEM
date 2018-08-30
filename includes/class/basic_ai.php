@@ -4,7 +4,7 @@ class basic_ai extends food
 	function run_check()
 	{
 
-		$sql = "SELECT cid, thirst, hunger, health, air FROM citizens WHERE status >= 1";
+		$sql = "SELECT cid, thirst, hunger, health, air FROM citizens WHERE status = 1";
 		$que = $this->db->prepare($sql);
 		try { 
 			if($que->execute())

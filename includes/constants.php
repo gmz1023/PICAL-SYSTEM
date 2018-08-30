@@ -25,7 +25,7 @@ define("extra_info",30);
 	1 second = 1000000;
 */
 define("sleep_state", 'off'); /* On/Off */
-define("sleep_type", 's'); /* u uses usleep | s uses sleep default at s */
+define("sleep_type", 'debug'); /* u uses usleep | s uses sleep default at s */
 switch(sleep_state)
 {
 	case 'on':
@@ -39,9 +39,9 @@ switch(sleep_state)
 		define("TIME_CHOICE", 14);
 		break;
 	case 'debug':
-		define("sleep_var", 0);
-		define("msg_delay", 50000);
-		define("TIME_CHOICE", mt_rand(0,30));
+		define("sleep_var", 3);
+		define("msg_delay", 5000000);
+		define("TIME_CHOICE", 100);
 		break;
 	default:
 		define("sleep_var", 0);
