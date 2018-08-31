@@ -1,5 +1,5 @@
 <?php
-class health extends supplies
+class health extends death
 {
 	function run_the_guanlet()
 	{
@@ -41,51 +41,20 @@ class health extends supplies
 			 	return $row['infected'];
 			}catch(PDOException $e) { die("Is_Infected Failure! ".$e->getMessage());}
 	}
+	function healthHitSilent($cid,$val)
+	{
+		$sql = "UPDATE citizens SET health = health+{$val} WHERE cid = {$cid}";
+		try {
+			$this->db->beginTransaction();
+			$this->db->exec($sql);
+			$this->db->commit();
+		}catch(PDOException $e) { $this->db->rollback(); die($e->getMessage());}
+	}
 	function healthHit($cid, $val, $r)
 	{
 		$name = $this->prettyName($cid);
 		$text = "[Health]".$name." Lost No Health -- Because this function is borked";
 		$this->message($text,'green',10);
-	}
-	function healthHitOld($cid, $val, $r)
-	{
-		$val = $val*1.2;
-		#$h = $this->getHealth($cid);
-		$sql = "UPDATE citizens SET health = health-({$val}) WHERE cid = {$cid} AND (health-{$val} <= 100 ) AND status = 1;";
-		try { 	$this->db->beginTransaction();
-				$this->db->exec($sql);
-			 	$this->db->commit();
-					$name = $this->prettyName($cid);
-			
-			 if($val > 0)
-			 {
-				
-				 $health = $this->getHealth($cid);
-				 if(($health-$val) > 0)
-				 {
-					  $color = 'red';
-				 $text = "[HEALTH]".$name." LOST ".abs($val)."of HEALTH | {$r}";
-					 			 $this->message($text,$color,10);
-			 	 }
-				 else
-				 {
-					$color = '';
-					$text = $r;
-					 
-					#$this->kill($cid,$text, $r);
-				 }
-			 }
-			 else
-			 {
-				 $color = 'green';
-				 $text = "[HEALTH]".$name." GAINED ".abs($val)." HEALTH | {$r}";
-				 			 $this->message($text,$color,10);
-			 }
-			# $text = "[HEALTH]".$name." LOST {$val} HEALTH";
-			}catch(PDOException $e) { 
-				$this->db->rollBack(); 
-				die("Health Fault: ".$e->getMessage());}
-		
 	}
 	function getHealth($cid)
 	{
@@ -195,110 +164,5 @@ class health extends supplies
 		}
 	}
 	/* Killing of Citizens*/
-	function kill($cid, $r)
-	{
-		$sql = "UPDATE citizens SET status = -1, died_on = :time, cod = :r WHERE cid = :cid AND status = 1";
-		$que = $this->db->prepare($sql);
-		$time = $this->getTime();
-		$que->bindParam(':cid', $cid);
-		$que->bindParam(':time', $time);
-		$que->bindParam(':r', $r);
-			try { 
-				if($que->execute())
-				{	
-					$this->divorce($cid);
-					$this->lifeMessages($cid, $r);	
-				}
-			}
-		catch(PDOException $e) { 
-			die($e->getMessage());
-		}
-	}
-	function killCitizens($cid, $health, $thirst, $hunger)
-	{
-		//* Rewriting this function to solve health issue.
-		$age = $this->citizenAge($cid);
-		$name = $this->prettyName($cid);
-		$cod = mt_rand(0, 900);
-		if($health > 0)
-		{
-			//* This Function needs to be fully overhauled to properly support everything
-		}
-		else
-		{
-			$this->kill($cid,'Because I Said So');
-		}
-	}
-	function killCitizensOld($cid, $health, $thirst, $hunger, $air)
-	{
-		/* This doesn't actually kill anyone, this hsould be change to Immunnity Roll */
 
-		/* Run the Guantlet of killing them, check everything */
-		$age = $this->citizenAge($cid);
-		#$chance_of_death = (abs($thirst+$hunger-$air));
-		$chance_of_death = mt_rand(0,900);
-		$cancer = 4;
-		$immunity = $this->immunityCheck($cid);
-		$this->hunger($cid);	
-	
-		/* Infection Of Citizens */
-		$this->infectionCheck($cid);
-		if($health > 0)
-		{
-			$hit = mt_rand(0,$age) / 10;
-			$this->diseaseStuff($cid,$age);
-			#$this->healthHit($cid,$hit,'health');
-			if($health < 50)
-			{
-				$x = ceil(mt_rand(0,$this->population*15)/3.8819);
-				#$this->eat($cid,'health',$x);
-			}
-			if($hunger < 99)
-			{
-				$x = ceil(mt_rand(0,$this->population*25)/3.8819);
-				$this->eat($cid,'hunger');
-				
-				#$this->healthHit($cid,$hit,'hunger');
-			}
-			elseif($hunger <= 0)
-			{
-				$this->kill($cid,'hunger');
-			}
-			else
-			{ 
-				//do nothing 
-			}
-			if($thirst <= 45)
-			{
-				#$this->healthHit($cid,$hit,'thirst');
-				$x = ceil(mt_rand(0,$this->population*8)/3.8819);
-				$this->eat($cid,'thirst');
-			}
-			elseif($thirst <= 0 )
-			{
-				$this->kill($cid,'thirst');
-			}
-			else
-			{ 
-				//do nothing 
-			}
-			if($air < 90)
-			{
-				$this->eat($cid,'air');
-			}
-			elseif($air <= 45 )
-			{
-				$this->healthHit($cid,$hit,'air');
-			}
-			elseif($air <= 0)
-			{
-				$this->kill($cid,'suffication');
-			}
-		}
-		else
-		{
-			$this->kill($cid,'poor health');
-		}
-		return true;
-	}
 }

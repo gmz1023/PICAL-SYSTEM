@@ -52,11 +52,29 @@ class map extends citizens
 		try { $que->execute();}catch(PDOException $e){ }
 	}
 /* Tile Supplies */
-	function tileWater($tid, $a)
+	function tileTemp($tid)
+	{
+		$sql = "SELECT temp FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try { $que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row["temp"];
+			}catch(PDOException $e) { }
+	}
+	function UpdateTileWater($tid, $a)
 	{
 		$sql = "UPDATE map SET water = water+{$a} WHERE sid = {$tid}";
 		try { $this->db->exec($sql);}catch(PDOException $e) { }
 		return true;
+	}
+	function WaterOnTile($tid)
+	{
+		$sql = "SELECT water FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try { $que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row["water"];
+			}catch(PDOException $e) { }
 	}
 		
 

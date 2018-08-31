@@ -15,8 +15,8 @@
 <file name="xml.xml" server="192.168.1.4/TEMPLAR/" local="131800013250000000" remote="131800584250000000" Dst="2" />
 <file name="test_baby_maker.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
 <file name="status.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
-<file name="run.php" server="192.168.1.4/TEMPLAR/" local="131800619444592473" remote="131800619450000000" Dst="2" />
-<file name="reset.php" server="192.168.1.4/TEMPLAR/" local="131800741367149204" remote="131800741380000000" Dst="2" />
+<file name="run.php" server="192.168.1.4/TEMPLAR/" local="131801746514024904" remote="131801746510000000" Dst="2" />
+<file name="reset.php" server="192.168.1.4/TEMPLAR/" local="131801778756748481" remote="131801778750000000" Dst="2" />
 <file name="names.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
 <file name="male.txt" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
 <file name="female.txt" server="192.168.1.4/TEMPLAR/" local="131800013220000000" remote="131800584230000000" Dst="2" />

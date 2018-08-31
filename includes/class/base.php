@@ -110,7 +110,7 @@ class base extends maths
 				$color ="\e[1;32m ";
 				break;
 			case "blue":
-				$color ="\e[44m ";
+				$color ="\e[1;34m ";
 				break;
 			case "yellow":
 				$color ="\e[1;33m ";

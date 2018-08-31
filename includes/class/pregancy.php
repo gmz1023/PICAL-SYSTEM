@@ -31,12 +31,7 @@ class pregancy extends tribe
 			$row = $que->fetch(PDO::FETCH_ASSOC);
 			if(array_sum($row) > 0) { return false; } else { return true;} return $row['infert1'];}catch(PDOException $e) { echo $e->getMessage();}
 	}
-//* Why wasn't this already a function?
-	function isPregnant($cid)
-	{
-		$sql = "SELECT status FROM citizens WHERE cid = {$cid}";
-		$que = $this->db->prepare$(sq)
-	}
+
 	function healthyForPregancy($mom, $dad, $pdate,$stat)
 	{
 							$mname = $this->prettyName($mom);
@@ -125,7 +120,8 @@ class pregancy extends tribe
 				father_id, 
 				relstat, 
 				spouse_id,
-				inti
+				inti,
+				tile_id
 				) 
 			VALUES 
 			(
@@ -138,7 +134,8 @@ class pregancy extends tribe
 				:fid, 
 				'1', 
 				'0',
-				:int
+				:int,
+				:tile
 			);";
 		$getParentGenetic = $this->getParentsGenetics($mid,$fid);
 		$surname = $this->getName($fid);
@@ -150,6 +147,7 @@ class pregancy extends tribe
 		$time = $this->getTime();
 		$que = $this->db->prepare($sql);
 		$int = $int+mt_rand(-3,3);
+		$mtile = $this->getCitizenTile($mid);
 		$que->bindParam(':name', $name);
 		$que->bindParam(':surname', $surname);
 		$que->bindParam(':gender', $gender);
@@ -157,6 +155,7 @@ class pregancy extends tribe
 		$que->bindParam(':mid', $mid);
 		$que->bindParam(':fid', $fid);
 		$que->bindParam(':int', $int);
+		$que->bindPAram(':tile', $mtile);
 		try { 
 			$que->execute(); 
 			$this->insertNewGenetics($getParentGenetic);
