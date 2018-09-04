@@ -93,10 +93,14 @@ class base extends maths
 	}
 	function message($message,$col, $level)
 	{
+		$message = strtoupper($message);
 		if(extra_info >= $level)
 		{
 		switch($col)
 		{
+			case "info":
+				$color = "\e[7m ";
+				break;
 			case "red":
 				$color ="\e[1;31m ";
 				break;

@@ -72,7 +72,7 @@ class pregancy extends tribe
 				{
 						
 					$this->statusChange($mom,3,1);
-					$this->message("[PREGNANT]{$mname} is expecting!",'green','3');
+					$this->message("[PREGNANT]{$mname} is expecting!",'happy','3');
 				}
 				else
 				{
@@ -162,7 +162,7 @@ class pregancy extends tribe
 			$nName = $this->prettyName($mid);
 			$dName = $this->prettyName($fid);
 			$this->statusChange($mid,2);
-			$text = "{$name} {$surname} was born on '{$time} to {$nName} & {$dName}!";
+			$text = "[LIFE]{$name} {$surname} was born on '{$time} to {$nName} & {$dName}!";
 			$this->message($text,$gender,2);
 			} catch(PDOException $e) { echo die('New Citizen Error: '.$e->getMessage()); } 
 	}

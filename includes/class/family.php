@@ -88,7 +88,7 @@ class family extends pregancy
 											$name2 = $this->getname($cit2);
 											$men = $this->genderedSingles('m');
 											$woman = $this->genderedSingles('f');
-											$text = "{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
+											$text = "[Marriage]{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
 										$this->message($text,'happy',2);
 											/* Future Proofing this for later "Gay Marriage" */
 
@@ -114,7 +114,7 @@ class family extends pregancy
 								$name2 = $this->getname($cit2);
 								$men = $this->genderedSingles('m');
 								$woman = $this->genderedSingles('f');
-								$text = "{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
+								$text = "[Marriage]{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
 							$this->message($text,'happy',2);
 								/* Future Proofing this for later "Gay Marriage" */
 
@@ -135,7 +135,7 @@ class family extends pregancy
 										$name2 = $this->getname($cit2);
 										$men = $this->genderedSingles('m');
 										$woman = $this->genderedSingles('f');
-										$text = "{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
+										$text = "[Marriage]{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
 									$this->message($text,'happy',2);
 										/* Future Proofing this for later "Gay Marriage" */
 

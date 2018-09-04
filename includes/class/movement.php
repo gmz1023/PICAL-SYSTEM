@@ -3,6 +3,16 @@ class movement
 {
 	function playerMove($cid)
 	{
+		
+		/* 
+		
+		
+		
+		This needs to be modified to account for Ocean Tiles
+		
+		
+		
+		*/
 		$limits = $this->getMapMax();
 		$sid = $this->getCitizenTile($cid);
 		//* Search for Water / Food
@@ -10,24 +20,37 @@ class movement
 		//* There has Got to be an easier way to do this, but until i figure it out, here we go
 		$p01 = $this->WaterOnTile($sid);
 		$temp = $this->tileTemp($sid);
-		if($temp <= 31 || $temp >= 95)
+		$pop = $this->getTilePop($sid);
+		$max_pop = $this->maxPop($sid);
+
+		if($temp <= bio_temp_min || $temp >= bio_temp_max)
 		{
+			$r = "Temperature";
 			$move = mt_rand(-1,1);
 			//* There is no water below this temp. need to work on ICE math
-			$this->satisify_needs($cid);
+			$this->healthHitSilent($cid,-4);
 		}
 		else
 		{
-			if($p01 <= water_consumption)
+			$food = $this->TotalFood($sid);
+			if($p01 <= water_consumption || $food == 0)
 			{
+				$r = 'Resources';
 				// Leave to find more water
 				$move = mt_rand(-1,1);
-				$this->satisify_needs($cid);
+			}
+			elseif($max_pop <= $pop)
+			{
+				$r = 'population';
+			$move = mt_rand(-1,1);
+			//* There is no water below this temp. need to work on ICE math
+			$this->healthHitSilent($cid,-4);
+			
 			}
 			else
 			{
+				$r = '';
 				$move = 0;
-				$this->satisify_needs($cid);
 			}
 		}
 		$pos = $sid+$move;
@@ -40,10 +63,11 @@ class movement
 		{
 			$pos = $limits['max_lim']+1;
 		}
-		$this->updatePos($cid,$pos, $move);
+		$this->updatePos($cid,$pos, $move, $r);
 		 #die();
+		$this->satisify_needs($cid);
 	}
-	function updatePos($cid,$pos, $move)
+	function updatePos($cid,$pos, $move, $r)
 	{
 		$age = $this->citizenAge($cid);
 		$momID = $this->getParents($cid);
@@ -98,15 +122,20 @@ class movement
 						spouse_id = {$cid};
 						";
 			try { $this->db->exec($sql);
-				}catch(PDOException $e) {}
+				}catch(PDOException $e) {die($this->getMessage());}
 			$text = "[MOVEMENT]{$name}";
 			if(!empty($spouse) || !is_null($spouse))
 			{
 				$text .= " AND {$Spname} ";	
 			}
-			$text .="MOVED {$move} SPACES TO {$pos}";
-			$this->message($text,'blue',30);
-			
+			$text .=" MOVED {$move} SPACES TO {$pos} | {$r}";
+			if($move == 0)
+			{
+			}
+			else
+			{
+			$this->message($text,'blue',3);
+			}
 		}
 	}
 	

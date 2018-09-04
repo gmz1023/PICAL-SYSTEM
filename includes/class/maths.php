@@ -37,12 +37,50 @@ class maths extends simulation
 	}
 	function stats()
 	{
+		//* This should be made into a single, giant, SQL query.
 		$ts = TIME_CHOICE." days";
 		$preg = $this->getStatCount(3);
 		$dead = $this->getStatCount(0);
+		$plants = $this->countPlants();
 		$cod = $this->leadinCOD();
+		$ox = $this->oxygenLevel();
 		$LS = $this->successfulName();
-	$sql = "INSERT INTO stats(time_step,it,cycle,pop, pregnant,dead, topDeathCause,last_name,sucessors) values ('{$ts}','{$_SESSION['it']}','{$_SESSION['loop']}', '{$this->population}', {$preg},{$dead}, '{$cod}','{$LS['LS']}','{$LS['LST']}');";
+		$wa = $this->ViableWaterReserves();
+		$wl = $this->TotalWildlifePop();
+		$avTemp = $this->selectAverageTemperature();
+	$sql = "INSERT INTO 
+				stats
+				(
+				time_step,
+				it,cycle,
+				pop, 
+				pregnant,
+				dead, 
+				topDeathCause,
+				last_name,
+				sucessors,
+				plants,
+				air,
+				water,
+				wildlife,
+				avgTemp
+				) 
+				values 
+				('{$ts}',
+				'{$_SESSION['it']}',
+				'{$_SESSION['loop']}', 
+				'{$this->population}', 
+				{$preg},
+				{$dead}, 
+				'{$cod}',
+				'{$LS['LS']}',
+				'{$LS['LST']}',
+				{$plants},
+				{$ox},
+				{$wa},
+				{$wl},
+				{$avTemp}
+				);";
 	try { 
 		
 		if($this->db->exec($sql))

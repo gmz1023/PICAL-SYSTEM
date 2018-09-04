@@ -1,5 +1,5 @@
 <?php
-class health extends death
+class health extends biofunctions
 {
 	function run_the_guanlet()
 	{
@@ -18,17 +18,17 @@ class health extends death
 				#$this->kill($row['cid'], 0);
 
 						/* It should be noted that the "Infection Roll" which is called through Kill Citizens is being called twice (or more) from this calling of KillCitizens. It's probably an easy fix but it's not causing any issues right now so i'm ignoring it. */
-						if(mt_rand(0,9000) == 1)
-						{
-							$rn = sprintf('%02d', mt_rand(0,12));
-							$gene = "imm".$rn;
-							$this->mutation($gene, mt_rand(-2,5), $row['cid']);
-						}
+						#if(mt_rand(0,9000) == 1)
+						#{
+						#	$rn = sprintf('%02d', mt_rand(0,12));
+						#	$gene = "imm".$rn;
+						#	#$this->mutation($gene, mt_rand(-2,5), $row['cid']);
+						#}
 			}
-			if(mt_rand(0,400))
-			{
-						$this->virusMutation();
-			}
+			#if(mt_rand(0,400))
+			#{
+			#			$this->virusMutation();
+			#}
 		}catch(PDOException $e) { echo $e->getMessage();}
 	}
 /* Actual Health Functions */
@@ -40,6 +40,15 @@ class health extends death
 				$row = $que->fetch(PDO::FETCH_ASSOC);
 			 	return $row['infected'];
 			}catch(PDOException $e) { die("Is_Infected Failure! ".$e->getMessage());}
+	}
+	function auto_healing($cid)
+	{
+		$th = $this->isThirsty($cid);
+		$hu = $this->isHungry($cid);
+		if($th && $hu)
+		{
+			$this->healthHitSilent($cid,10);
+		}
 	}
 	function healthHitSilent($cid,$val)
 	{
