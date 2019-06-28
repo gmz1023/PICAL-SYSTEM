@@ -4,7 +4,7 @@ class maths extends simulation
 	//* Statistics stuff*/
 	function getStatCount($stat)
 	{
-		$sql = "SELECT count(*) as tot FROM citizens WHERE relstat = {$stat}";
+		$sql = "SELECT count(*) as tot FROM citizens WHERE status = {$stat}";
 		$que = $this->db->prepare($sql);
 		try { 
 			$que->execute();
@@ -15,7 +15,7 @@ class maths extends simulation
 	}
 	function leadinCOD()
 	{
-		$sql = "SELECT cod FROM citizens WHERE relstat = 0 GROUP BY cod ORDER BY count(cod) DESC LIMIT 1;";
+		$sql = "SELECT cod FROM citizens WHERE status = -1 GROUP BY cod ORDER BY count(cod) DESC LIMIT 1;";
 		$que = $this->db->prepare($sql);
 		try { 
 			$que->execute();
@@ -40,12 +40,12 @@ class maths extends simulation
 		//* This should be made into a single, giant, SQL query.
 		$ts = TIME_CHOICE." days";
 		$preg = $this->getStatCount(3);
-		$dead = $this->getStatCount(0);
+		$dead = $this->getStatCount(-1);
 		$plants = $this->countPlants();
 		$cod = $this->leadinCOD();
 		$ox = $this->oxygenLevel();
 		$LS = $this->successfulName();
-		$wa = $this->ViableWaterReserves();
+		$wa = 0;//$this->ViableWaterReserves();
 		$wl = $this->TotalWildlifePop();
 		$avTemp = $this->selectAverageTemperature();
 	$sql = "INSERT INTO 
@@ -75,18 +75,20 @@ class maths extends simulation
 				'{$cod}',
 				'{$LS['LS']}',
 				'{$LS['LST']}',
-				{$plants},
-				{$ox},
-				{$wa},
-				{$wl},
-				{$avTemp}
+				'{$plants}',
+				'{$ox}',
+				'{$wa}',
+				'{$wl}',
+				'{$avTemp}'
 				);";
 	try { 
-		
 		if($this->db->exec($sql))
 		{
 			return true;
-		}}catch(PDOException $e) { die($e->getMessage());}
+		}}catch(PDOException $e) { 
+		echo $sql;
+		
+		die($e->getMessage());}
 	}
 	/* Unrelated */
 	function formatBytes($bytes, $precision = 2) { 

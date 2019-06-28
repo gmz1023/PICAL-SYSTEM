@@ -15,9 +15,41 @@ class animals extends movement
 	{
 		$sql = "UPDATE map
 				SET plants = CASE
-				WHEN plants-wildlife > 1 THEN plants-wildlife ELSE plants END,
+					WHEN 
+						plants-wildlife > 0 
+					THEN 
+						plants-wildlife 
+					ELSE 
+						plants 
+					END,
+				seeds = 
+					CASE
+						WHEN 
+							seeds-wildlife > 0 
+						THEN 
+							(seeds-wildlife)/2 
+						ELSE 
+							seeds 
+						END,
+				water = 
+					CASE
+						WHEN 
+							water-(wildlife*45424) > 0 
+						THEN 
+							water-(wildlife*45424) 
+						ELSE 
+							water 
+						END
 				";
-		try { $this->db->exec($sql);}catch(PDOException $e) { //die( $e->getMessage());
+		$sql2 = "UPDATE
+					Atmosphere as a
+				SET
+					a.methane = a.methane+(SELECT sum(wildlife) FROM map)/10000000
+				";
+		try { 
+			$this->db->exec($sql);
+			$this->db->exec($sql2);
+		}catch(PDOException $e) {die( $e->getMessage());
 		}
 	}
 	function WildLifeReproduction()
@@ -28,19 +60,38 @@ class animals extends movement
 			UPDATE 
 				map
 			SET
-				wildlife = wildlife*".mt_rand(4,10)." WHERE wildlife <> 0 AND plants <> 0";
+				wildlife = wildlife+(wildlife/10) 
+				WHERE 
+					wildlife > 2 AND plants > wildlife;";
 		
 		//* This will have to be updated eventually to allow animals to die off as well
 		try { 
 			$this->db->exec($sql);
-			$pop = $this->TotalWildlifePop();
-			$this->message("[Wild Life]Animal Growth | {$pop}", 'blue',30);
+			#$pop = $this->TotalWildlifePop();
+			$this->message("[Wild Life]Animal Growth", 'blue',30);
 			}
 		catch(PDOException $e) {}
 		}
 		else
 		{
+					$sql = "
+			UPDATE 
+				map
+			SET
+				wildlife = wildlife-(wildlife/5) 
+				WHERE 
+					wildlife > 2 AND plants > wildlife;";
+		
+		//* This will have to be updated eventually to allow animals to die off as well
+		try { 
+			$this->db->exec($sql);
 			$this->message("[Wild Life] No Animal Growth", 'blue',30);
+			}
+		catch(PDOException $e) {
+			die($e->getMessage());
+		}
+		
+
 			
 		}
 		$this->animals_eat_to();

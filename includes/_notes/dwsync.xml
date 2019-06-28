@@ -12,4 +12,7 @@
 <file name="db.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584240000000" Dst="2" />
 <file name="constants.php" server="192.168.1.4/TEMPLAR/" local="131801776915467469" remote="131801777840000000" Dst="2" />
 <file name="functions.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584240000000" Dst="2" />
+<file name="constants.php" server="192.168.1.7/PICAL/" local="132062125269181561" remote="132062125280000000" Dst="2" />
+<file name="db.php" server="192.168.1.7/PICAL/" local="132059789959127897" remote="132060795170000000" Dst="2" />
+<file name="functions.php" server="192.168.1.7/PICAL/" local="132059789959137875" remote="132060795170000000" Dst="2" />
 </dwsync>

@@ -4,10 +4,21 @@ class food extends genes
 /* 
 	Food / Need related Functions 
 */
-	function updateThirst($cid,$mode)
+	function updateThirst($cid,$mode,$tid = NULL)
 	{
 		$sql = "UPDATE citizens SET thirst = {$mode} WHERE cid = {$cid}";
-		try { $this->db->exec($sql);}catch(PDOException $e){
+		try {
+			if($this->db->exec($sql))
+			{
+				if(!is_null($tid))
+				{
+					$this->UpdateTileWater($tid, (water_consumption*-1));
+					return true;
+				}
+				else{ return true;}
+			}
+			
+		}catch(PDOException $e){
 			
 		}
 	}
@@ -79,18 +90,30 @@ class food extends genes
 		$wl = $this->WildlifeOnTile($tid);
 		$pl = $this->PlantsOnTile($tid);
 		//* There might eventually be a "Physically Active" flag to determine how much food/water is eatan
-		$ea = mt_rand(4,6)*TIME_CHOICE;
+		$ea = food_consumption;
 		switch(mt_rand(0,1))
 		{
 			case 0:
 				if($pl > $ea)
 				{
-				$sql = "UPDATE map SET plants = plants-{$ea} WHERE sid = {$tid}";
-				try {	$this->db->exec($sql);
+				$sql = "UPDATE 
+							map
+						SET 
+							plants = plants-{$ea},
+							seeds = seeds+({$ea})
+						WHERE 
+							sid = {$tid}
+							AND
+							(plants-{$ea}) > 0
+							";
+				try {	if($this->db->exec($sql))
+					{	
 					 	$food = 'plant';
 						$text = "[RESOURCE]{$name} ATE {$ea} {$food}";
 						$this->message($text,'danger',30);
-						$this->updateHunger($cid,0);
+					$this->updateHunger($cid,0);
+					
+					}
 					}catch(PDOException $e) { die($e->getMessage());}
 
 				}
@@ -127,16 +150,29 @@ class food extends genes
 	}
 	function drink($cid,$tid)
 	{
+		$water = $this->WaterOnTile($tid);
+		$consu = water_consumption;
+		if($water > $consu)
+		{
+			if($this->updateThirst($cid,1000,$tid))
+			{
+				#die('THEY DRANK!');
+			}
+			#die('MORE WATER!!!!!');
+		}
+	}
+	function drinkOLD($cid,$tid)
+	{
 		$h = $this->getHealth($cid);
 		$name = $this->prettyName($cid);
 		$water = $this->WaterOnTile($tid);
 		//* There might eventually be a "Physically Active" flag to determine how much food/water is eatan
-		$wc = (water_consumption*mt_rand(1,4))*TIME_CHOICE;
-		if($water >= $wc)
+		$wc = (water_consumption*TIME_CHOICE);
+		if($water-$wc >= 0)
 		{
 			$this->UpdateTileWater($tid, ($wc*-1));
 			$this->updateThirst($cid,0);
-
+			$this->healthHitSilent($cid,1);
 			$text = "[RESOURCE] {$name} DRANK ".$wc." Of WATER FROM {$tid} | GAINED 1hp ";
 			$this->message($text, 'happy', '2');
 		}

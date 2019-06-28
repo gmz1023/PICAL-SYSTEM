@@ -51,7 +51,7 @@ class family extends pregancy
 	function divorce($cid)
 	{
 		//* Right now this is used for Dead People
-		$sql = "UPDATE citizens SET relstat = 1 WHERE (cid = {$cid} AND status = 1) OR spouse_id = {$cid}";
+		$sql = "UPDATE citizens SET relstat = 1 WHERE (cid = {$cid} AND status = 1) OR (spouse_id = {$cid}) AND spouse_id <> 0;";
 		$que = $this->db->prepare($sql);
 		try { $que->execute();} catch(PDOException $e) { die($e->getMessage());}
 	}

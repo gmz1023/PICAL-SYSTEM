@@ -20,19 +20,49 @@ class death extends supplies
 			die($e->getMessage());
 		}
 	}
+	function lastDrankOn($cid)
+	{
+		$sql = "SELECT drankOn FROM citizens WHERE cid = {$cid}";
+		$que = $this->db->prepare($sql);
+		try  {
+			$que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			return $row['drankOn'];
+		}catch(PDOException $e){}
+	}
 	function killCitizens($cid, $health, $thirst, $hunger)
 	{
+		$this->lastDrankOn($cid);
+		$tid = $this->getCitizenTile($cid);
+		$temp = $this->tileTemp($tid);
+		if($temp >= 158 || $temp < -10)
+		{
+			$this->kill($cid,"Temperature Range");
+		}
 		//* Rewriting this function to solve health issue.
-		$age = $this->citizenAge($cid);
-		$name = $this->prettyName($cid);
-		$cod = mt_rand(0, 900);
 		if($health > 0)
 		{
 			//* This Function needs to be fully overhauled to properly support everything
+			#echo $health."|".$thirst."|".$hunger."\n";
+			if($thirst == 1)
+			{
+				//* This needs to be tweaked to account for water on map
+				$drank = $this->lastDrankOn($cid);
+				if($drank >= 3)
+				{
+					$this->kill($cid,"dehydration");
+				}
+
+			}
+			if($hunger <= 0)
+			{
+				
+				#$this->kill($cid,"Starvation");
+			}
 		}
 		else
 		{
-			$this->kill($cid,'Because I Said So');
+			$this->kill($cid,"Cant Beat the Reaper");
 		}
 	}
 }
