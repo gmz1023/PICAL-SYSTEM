@@ -48,77 +48,11 @@ class base extends maths
 		}
 	
 	}
-	function deathMessage_old($cid, $health)
-	{
-		$name = $this->prettyName($cid);
-		if(extra_info >= 3)
-		{
-		switch(mt_rand(1,16))
-			{
-				case 1:
-				$text ="{$name} fought back the reaper, Not Today Death!";
-				break;
-				case 2:
-				$text = "Despite crippling odds, {$name} is still alive!";
-				break;
-				case 3:
-				$text = "{$name} keeps on keeping on!";
-				break;
-				case 4: 
-					$text = "{$name} beat Death with their own cold hand";
-				break;
-				case 5:
-					$text = "{$name} lives to see another day";
-				break;
-				case 6:
-					$text = "{$name} Beat Death in a game of chess!";
-					break;
-				case 7: 
-					$text = "{$name} narrowly avoided The Reaper!";
-					break;
-				case 8: 
-					$text = "{$name} had a dance off with Death and won!";
-					break;
-				case 9: 
-					$text = "{$name} had a dance off with Death and won!";
-					break;
-				case 10:
-					$text = "What do yo umean {$name} survived? I had my bets on them dying!";
-					break;
-				case 11:
-					$text = "After constructing a series of tubes and rodes, {$name} managed to extend there life for another day!";
-					break;
-				case 12:
-					$text = "Long story short, that's how {$name} survived another day!";
-					break;
-				case 13:
-					$text = "{$name} withered away while fighting the Ender Dragon";
-					break;
-				case 14:
-					$text = "{$name} found the fountain of youth! Sadly only a days supply was left.";
-					break;
-				case 15:
-					$text = "{$name} drank from their trusty Goddard Futuristics canteen";;
-					break;
-				case 16:
-					$text = "{$name}'s final words 'Ducks, why did it have to be Ducks.'";
-					break;
-				default:
-				$text = NULL;
-				break;
-			}
-				if(!is_null($text))
-				{
-				echo "\e[1;36m  [SURVIVOR]".$text."\e[0m \n";
-				usleep(msg_delay);
-				}	
-		}
-	
-	}
 	function lifeMessages($cid, $r =NULL)
 	{
 		/* These ones are actually people who have died... Book of the dead, book of the living */
 		$name = $this->prettyName($cid);
+		$age = $this->citizenAge($cid);
 		if(extra_info >= 3)
 		{
 			if($r == NULL)
@@ -143,14 +77,17 @@ class base extends maths
 			if(preg_match("/{name}/", $text))
 			{
 				$text = preg_replace("/{name}/", $name, $text);
+				$text = preg_replace("/{age}/", $age, $text);
 			}
 			}
 			else
 			{
-				$text = $name." Died of Hunger";
+				$text = $name." Died of {$r} at Age {$age}";
 			}
-			echo "\e[1;41m  [DEAD]".$text."| \e[0m \n";
-				usleep(msg_delay);
+			$pop = $this->totalPopulation();
+			#print_r(debug_backtrace());
+			echo "\e[1;41m  [DEAD][{$cid}]".$text."| Pop Remaining: {$pop} \e[0m \n";
+			#	sleep(1);
 			
 		}
 	}
@@ -194,7 +131,7 @@ class base extends maths
 				$color ="\e[1;36m ";
 				break;
 		}
-		echo "{$color} {$message}\e[0m \n";
+		echo "{$color} {$message} \e[0m \n";
 		}
 		usleep(msg_delay);
 	}

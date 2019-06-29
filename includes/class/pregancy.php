@@ -3,7 +3,7 @@ class pregancy extends tribe
 {
 	function getHealthyCouples()
 	{
-		$sql = "SELECT cid,spouse_id,pregnant_on,relstat FROM citizens WHERE gender = 'f' AND relstat >= 2";
+		$sql = "SELECT cid,spouse_id,pregnant_on,relstat FROM citizens WHERE gender = 'f' AND relstat >= 2 AND status = 1";
 		$que = $this->db->prepare($sql);
 		try { 
 			$que->execute();
@@ -22,12 +22,20 @@ class pregancy extends tribe
 			FROM citizens
 			JOIN genetics ON citizens.cid = genetics.cid
 			LEFT JOIN virus ON virus.vid = citizens.infected
-			WHERE citizens.cid = {$cid}";
+			WHERE 
+				citizens.cid = {$cid}
+				";
 		$que = $this->db->prepare($sql);
 		try { 
 			$que->execute(); 
 			$row = $que->fetch(PDO::FETCH_ASSOC);
 			if(array_sum($row) > 0) { return false; } else { return true;} return $row['infert1'];}catch(PDOException $e) { echo $e->getMessage();}
+	}
+//* Why wasn't this already a function?
+	function isPregnant($cid)
+	{
+		$sql = "SELECT status FROM citizens WHERE cid = {$cid}";
+		$que = $this->db->prepare$(sq)
 	}
 	function healthyForPregancy($mom, $dad, $pdate,$stat)
 	{
@@ -42,8 +50,8 @@ class pregancy extends tribe
 			elseif(mt_rand(0,99999999) == 9)
 			{
 				/* Probably not rare enough but essentially a dad flips shit. Murder Suicide. I'll probably be adding more dark things here */
-				$this->kill($mom, 'rampage');
-				$this->kill($dad, 'rampage');
+				#$this->kill($mom, 'rampage');
+				#$this->kill($dad, 'rampage');
 			}
 			else
 			{

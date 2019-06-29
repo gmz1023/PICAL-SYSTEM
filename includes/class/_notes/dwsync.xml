@@ -16,4 +16,21 @@
 <file name="population.php" server="10.0.0.25/public_html/" local="131378140895572872" remote="131378125800000000" Dst="2" />
 <file name="virus.php" server="10.0.0.25/public_html/" local="131383926559481518" remote="131383109400000000" Dst="2" />
 <file name="supplies.php" server="10.0.0.25/public_html/" local="131379619543000345" remote="131379604200000000" Dst="2" />
+<file name="genes.php" server="192.168.1.4/TEMPLAR/" local="131800617862248320" remote="131800617860000000" Dst="2" />
+<file name="food.php" server="192.168.1.4/TEMPLAR/" local="131800746932606560" remote="131800751110000000" Dst="2" />
+<file name="health.php" server="192.168.1.4/TEMPLAR/" local="131800761855886934" remote="131800761890000000" Dst="2" />
+<file name="maths.php" server="192.168.1.4/TEMPLAR/" local="131800613254863421" remote="131800613390000000" Dst="2" />
+<file name="family.php" server="192.168.1.4/TEMPLAR/" local="131801412854924277" remote="131801412850000000" Dst="2" />
+<file name="tribe.php" server="192.168.1.4/TEMPLAR/" local="131800013230000000" remote="131800584240000000" Dst="2" />
+<file name="virus.php" server="192.168.1.4/TEMPLAR/" local="131800635084141811" remote="131800635080000000" Dst="2" />
+<file name="simulation.php" server="192.168.1.4/TEMPLAR/" local="131800617056730155" remote="131800617060000000" Dst="2" />
+<file name="citizens.php" server="192.168.1.4/TEMPLAR/" local="131801417143097823" remote="131801417140000000" Dst="2" />
+<file name="base.php" server="192.168.1.4/TEMPLAR/" local="131800608714297133" remote="131800608710000000" Dst="2" />
+<file name="pregancy.php" server="192.168.1.4/TEMPLAR/" local="131800614580622224" remote="131800614580000000" Dst="2" />
+<file name="basic_ai.php" server="192.168.1.4/TEMPLAR/" local="131800612884898773" remote="131800613380000000" Dst="2" />
+<file name="supplies.php" server="192.168.1.4/TEMPLAR/" local="131800747488834185" remote="131800747490000000" Dst="2" />
+<file name="population.php" server="192.168.1.4/TEMPLAR/" local="131800013230000000" remote="131800584240000000" Dst="2" />
+<file name="map.php" server="192.168.1.4/TEMPLAR/" local="131801410584564443" remote="131801411210000000" Dst="2" />
+<file name="enviroment.php" server="192.168.1.4/TEMPLAR/" local="131800747875031763" remote="131800751110000000" Dst="2" />
+<file name="movement.php" server="192.168.1.4/TEMPLAR/" local="131801414017041698" remote="131801414010000000" Dst="2" />
 </dwsync>

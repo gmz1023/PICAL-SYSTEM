@@ -11,4 +11,18 @@
 <file name="test_baby_maker.php" server="10.0.0.25/public_html/" local="131378140210000000" remote="131378124600000000" Dst="2" />
 <file name="xml.xml" server="10.0.0.25/public_html/" local="131381428331606371" remote="131381379000000000" Dst="2" />
 <file name="reset.php" server="10.0.0.240" local="131386781135985538" remote="131387154600000000" Dst="2" />
+<file name="yob2015.txt" server="192.168.1.4/TEMPLAR/" local="131800013250000000" remote="131800584250000000" Dst="2" />
+<file name="xml.xml" server="192.168.1.4/TEMPLAR/" local="131800013250000000" remote="131800584250000000" Dst="2" />
+<file name="test_baby_maker.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
+<file name="status.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
+<file name="run.php" server="192.168.1.4/TEMPLAR/" local="131800619444592473" remote="131800619450000000" Dst="2" />
+<file name="reset.php" server="192.168.1.4/TEMPLAR/" local="131800741367149204" remote="131800741380000000" Dst="2" />
+<file name="names.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
+<file name="male.txt" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
+<file name="female.txt" server="192.168.1.4/TEMPLAR/" local="131800013220000000" remote="131800584230000000" Dst="2" />
+<file name="action.php" server="192.168.1.4/TEMPLAR/" local="131800013220000000" remote="131800584230000000" Dst="2" />
+<file name=".htaccess" server="192.168.1.4/TEMPLAR/" local="131800013220000000" remote="131800584230000000" Dst="2" />
+<file name=".gitignore" server="192.168.1.4/TEMPLAR/" local="131800013220000000" remote="131800584230000000" Dst="2" />
+<file name=".gitattributes" server="192.168.1.4/TEMPLAR/" local="131800013220000000" remote="131800584230000000" Dst="2" />
+<file name="test.php" server="192.168.1.4/TEMPLAR/" local="131800627463118183" remote="131800627460000000" Dst="2" />
 </dwsync>

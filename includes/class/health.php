@@ -1,16 +1,19 @@
-i<?php
+<?php
 class health extends supplies
 {
 	function run_the_guanlet()
 	{
-		$sql = "SELECT cid, health,air,thirst,hunger,inti FROM citizens WHERE relstat <> 0 ORDER BY rand()";
+		$sql = "SELECT cid, health,thirst,hunger,inti FROM citizens WHERE status = 1 ORDER BY rand()";
 		$que = $this->db->prepare($sql);
+		$sup = $this->allSuplies();
+		$ox = $sup['air'];
 		try { 
 			
 			$que->execute(); 
 			while($row = $que->fetch(PDO::FETCH_ASSOC))
 			{
-				$this->killCitizens($row['cid'],$row['health'],$row['thirst'],$row['hunger'],$row['air'],$row['inti']);
+				$this->playerMove($row['cid']);
+				$this->killCitizens($row['cid'],$row['health'],$row['thirst'],$row['hunger'],$ox,$row['inti']);
 				/* Uncomment the code below only when testing things that need a fresh run to die quickly */
 				#$this->kill($row['cid'], 0);
 
@@ -31,7 +34,7 @@ class health extends supplies
 /* Actual Health Functions */
 	function is_infected($cid)
 	{
-		$sql = "SELECT infected FROM citizens WHERE cid = {$cid}";
+		$sql = "SELECT infected FROM citizens WHERE cid = {$cid} AND status = 1;";
 		$que = $this->db->prepare($sql);
 		try { $que->execute(); 
 				$row = $que->fetch(PDO::FETCH_ASSOC);
@@ -40,26 +43,35 @@ class health extends supplies
 	}
 	function healthHit($cid, $val, $r)
 	{
-		$sql = "UPDATE citizens SET health = health-({$val}) WHERE cid = {$cid} AND (health-{$val} <= 100 )";
+		$name = $this->prettyName($cid);
+		$text = "[Health]".$name." Lost No Health -- Because this function is borked";
+		$this->message($text,'green',10);
+	}
+	function healthHitOld($cid, $val, $r)
+	{
+		$val = $val*1.2;
+		#$h = $this->getHealth($cid);
+		$sql = "UPDATE citizens SET health = health-({$val}) WHERE cid = {$cid} AND (health-{$val} <= 100 ) AND status = 1;";
 		try { 	$this->db->beginTransaction();
 				$this->db->exec($sql);
 			 	$this->db->commit();
-			$name = $this->prettyName($cid);
+					$name = $this->prettyName($cid);
 			
-			 if($val >= 0)
+			 if($val > 0)
 			 {
 				
 				 $health = $this->getHealth($cid);
 				 if(($health-$val) > 0)
 				 {
 					  $color = 'red';
-				 $text = "[HEALTH]".$name." LOST ".abs($val)." HEALTH | {$r}}";
+				 $text = "[HEALTH]".$name." LOST ".abs($val)."of HEALTH | {$r}";
 					 			 $this->message($text,$color,10);
 			 	 }
 				 else
 				 {
 					$color = '';
 					$text = $r;
+					 
 					#$this->kill($cid,$text, $r);
 				 }
 			 }
@@ -73,10 +85,11 @@ class health extends supplies
 			}catch(PDOException $e) { 
 				$this->db->rollBack(); 
 				die("Health Fault: ".$e->getMessage());}
+		
 	}
 	function getHealth($cid)
 	{
-		$sql = "SELECT health FROM citizens WHERE cid = {$cid}";
+		$sql = "SELECT health FROM citizens WHERE cid = {$cid} AND status = 1;";
 		$que = $this->db->prepare($sql);
 
 		try { 
@@ -98,7 +111,7 @@ class health extends supplies
 			$list = $this->distanceCheck($tid, $cid);
 			$count = count($list)-1;
 			$this->infectRoll($vid, $list);
-			$this->healthHit($cid,mt_rand(0,10),'infection');
+			#$this->healthHit($cid,mt_rand(0,10),'infection');
 
 		}
 		else
@@ -127,7 +140,7 @@ class health extends supplies
 		$chance = 10;
 		if($age >= 45)
 		{
-			$this->healthHit($cid,mt_rand(4,$age),'age');
+			#$this->healthHit($cid,mt_rand(4,$age),'age');
 		}
 		$g = $this->getCitizenGenetics($cid);
 		$cancer = ($g['BRAC1'] +$g['BRAC2'] + $g['BRAC3']);
@@ -174,7 +187,7 @@ class health extends supplies
 			if(mt_rand(3,mt_rand(4,60)) == mt_rand(0,$c))
 			{
 				$hit = 15*$c;
-				$this->healthHit($cid,mt_rand(1,$c));
+				#$this->healthHit($cid,mt_rand(1,$c));
 				$pretty = $this->prettyName($cid);
 				$health = $this->getHealth($cid);
 				$this->message("{$pretty} Withered from Cancer | $health",'red');
@@ -184,21 +197,39 @@ class health extends supplies
 	/* Killing of Citizens*/
 	function kill($cid, $r)
 	{
-		/* Kill Citizens Outright -- /kill */
-		$age = $this->citizenAge($cid);
-		$name = $this->getname($cid);
-		$sql = "UPDATE citizens SET relstat = 0, spouse_id = 0, died_on = :time, cod = :r WHERE cid = :cid;";
+		$sql = "UPDATE citizens SET status = -1, died_on = :time, cod = :r WHERE cid = :cid AND status = 1";
 		$que = $this->db->prepare($sql);
 		$time = $this->getTime();
 		$que->bindParam(':cid', $cid);
 		$que->bindParam(':time', $time);
 		$que->bindParam(':r', $r);
-		try { $que->execute(); 
-				$this->divorce($cid);
-				$this->lifeMessages($cid, $r);	
-		} catch(PDOException $e) { echo $e->getMessage(); } 
+			try { 
+				if($que->execute())
+				{	
+					$this->divorce($cid);
+					$this->lifeMessages($cid, $r);	
+				}
+			}
+		catch(PDOException $e) { 
+			die($e->getMessage());
+		}
 	}
-	function killCitizens($cid, $health, $thirst, $hunger, $air)
+	function killCitizens($cid, $health, $thirst, $hunger)
+	{
+		//* Rewriting this function to solve health issue.
+		$age = $this->citizenAge($cid);
+		$name = $this->prettyName($cid);
+		$cod = mt_rand(0, 900);
+		if($health > 0)
+		{
+			//* This Function needs to be fully overhauled to properly support everything
+		}
+		else
+		{
+			$this->kill($cid,'Because I Said So');
+		}
+	}
+	function killCitizensOld($cid, $health, $thirst, $hunger, $air)
 	{
 		/* This doesn't actually kill anyone, this hsould be change to Immunnity Roll */
 
@@ -216,7 +247,7 @@ class health extends supplies
 		{
 			$hit = mt_rand(0,$age) / 10;
 			$this->diseaseStuff($cid,$age);
-			$this->healthHit($cid,$hit,'health');
+			#$this->healthHit($cid,$hit,'health');
 			if($health < 50)
 			{
 				$x = ceil(mt_rand(0,$this->population*15)/3.8819);
@@ -227,7 +258,7 @@ class health extends supplies
 				$x = ceil(mt_rand(0,$this->population*25)/3.8819);
 				$this->eat($cid,'hunger');
 				
-				$this->healthHit($cid,$hit,'hunger');
+				#$this->healthHit($cid,$hit,'hunger');
 			}
 			elseif($hunger <= 0)
 			{
@@ -239,7 +270,7 @@ class health extends supplies
 			}
 			if($thirst <= 45)
 			{
-				$this->healthHit($cid,$hit,'thirst');
+				#$this->healthHit($cid,$hit,'thirst');
 				$x = ceil(mt_rand(0,$this->population*8)/3.8819);
 				$this->eat($cid,'thirst');
 			}
