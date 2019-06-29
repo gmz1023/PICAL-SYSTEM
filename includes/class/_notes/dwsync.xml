@@ -35,4 +35,25 @@
 <file name="movement.php" server="192.168.1.4/TEMPLAR/" local="131801781498673604" remote="131801781500000000" Dst="2" />
 <file name="plants.php" server="192.168.1.4/TEMPLAR/" local="131801763566183420" remote="131801763560000000" Dst="2" />
 <file name="death.php" server="192.168.1.4/TEMPLAR/" local="131801771289861467" remote="131801771370000000" Dst="2" />
+<file name="animals.php" server="192.168.1.7/PICAL/" local="132062110954355210" remote="132062110960000000" Dst="2" />
+<file name="base.php" server="192.168.1.7/PICAL/" local="132061710162553313" remote="132061710170000000" Dst="2" />
+<file name="basic_ai.php" server="192.168.1.7/PICAL/" local="132059836880970798" remote="132060795160000000" Dst="2" />
+<file name="biofunctions.php" server="192.168.1.7/PICAL/" local="132061804153726306" remote="132061804170000000" Dst="2" />
+<file name="citizens.php" server="192.168.1.7/PICAL/" local="132059836880990744" remote="132060795160000000" Dst="2" />
+<file name="death.php" server="192.168.1.7/PICAL/" local="132061769641723824" remote="132061769650000000" Dst="2" />
+<file name="enviroment.php" server="192.168.1.7/PICAL/" local="132062202661499442" remote="132062202680000000" Dst="2" />
+<file name="family.php" server="192.168.1.7/PICAL/" local="132060824170937312" remote="132060824180000000" Dst="2" />
+<file name="food.php" server="192.168.1.7/PICAL/" local="132062109371931282" remote="132062109380000000" Dst="2" />
+<file name="genes.php" server="192.168.1.7/PICAL/" local="132059789959028199" remote="132060795170000000" Dst="2" />
+<file name="health.php" server="192.168.1.7/PICAL/" local="132059838212633207" remote="132060795170000000" Dst="2" />
+<file name="map.php" server="192.168.1.7/PICAL/" local="132061705241378046" remote="132061805960000000" Dst="2" />
+<file name="maths.php" server="192.168.1.7/PICAL/" local="132061760797289540" remote="132061760800000000" Dst="2" />
+<file name="movement.php" server="192.168.1.7/PICAL/" local="132059838212683078" remote="132060795170000000" Dst="2" />
+<file name="plants.php" server="192.168.1.7/PICAL/" local="132062122126164789" remote="132062122150000000" Dst="2" />
+<file name="population.php" server="192.168.1.7/PICAL/" local="132059789959058082" remote="132060795170000000" Dst="2" />
+<file name="pregancy.php" server="192.168.1.7/PICAL/" local="132059838212772837" remote="132060795170000000" Dst="2" />
+<file name="simulation.php" server="192.168.1.7/PICAL/" local="132061754726408223" remote="132061754730000000" Dst="2" />
+<file name="supplies.php" server="192.168.1.7/PICAL/" local="132059838212802759" remote="132060795170000000" Dst="2" />
+<file name="tribe.php" server="192.168.1.7/PICAL/" local="132059789959097984" remote="132060795170000000" Dst="2" />
+<file name="virus.php" server="192.168.1.7/PICAL/" local="132059836881180244" remote="132060795170000000" Dst="2" />
 </dwsync>

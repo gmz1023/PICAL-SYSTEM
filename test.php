@@ -1,5 +1,7 @@
 <?php
 require_once('includes/db.php');
 $cit = new base($db,1);
-
-$cit->breathe();
+for($i = 1; $i++; $i < 10)
+{
+$cit->Rain();
+}

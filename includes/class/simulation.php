@@ -3,22 +3,26 @@ class simulation extends map
 {
 	function do_run2()
 	{
-		$this->Rain();
+		
 	}
 	function do_run()
 	{
-		$this->updateSupplies();
+		#die("Something Went Wrong!!!!");
+		#$this->updateSupplies();
+		$this->Rain();
 		if($this->virusCount() == 0)
 		{
 			$this->createVirus();
 		}
 		if($this->updateTime())
 		{
+			
 			if($this->marryCitizens())
 			{
 				
 				if($this->getHealthyCouples())
 				{
+					
 				
 					$this->run_the_guanlet();
 				}

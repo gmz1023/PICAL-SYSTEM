@@ -4,4 +4,6 @@
 <file name="lurch.sql" server="10.0.0.240/public_html/" local="131387148099468091" remote="131387161800000000" Dst="2" />
 <file name="install.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
 <file name="lurch.sql" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584250000000" Dst="2" />
+<file name="install.php" server="192.168.1.7/PICAL/" local="132059789959207685" remote="132060795180000000" Dst="2" />
+<file name="lurch.sql" server="192.168.1.7/PICAL/" local="132059789959277496" remote="132060795180000000" Dst="2" />
 </dwsync>

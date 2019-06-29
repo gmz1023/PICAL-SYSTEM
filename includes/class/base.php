@@ -10,7 +10,6 @@ class base extends maths
 		$this->loop = $loop;
 		#$this->debugger();
 		$this->population = $this->totalPopulation();
-
 	}
 /* Messaging Functions
 	General messages pass through message

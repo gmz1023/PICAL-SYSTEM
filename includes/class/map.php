@@ -83,12 +83,7 @@ class map extends citizens
 			 return $row["temp"];
 			}catch(PDOException $e) { }
 	}
-	function UpdateTileWater($tid, $a)
-	{
-		$sql = "UPDATE map SET water = water+{$a} WHERE sid = {$tid}";
-		try { $this->db->exec($sql);}catch(PDOException $e) { }
-		return true;
-	}
+
 //* Tile Resources 
 	function PlantsOnTile($tid)
 	{

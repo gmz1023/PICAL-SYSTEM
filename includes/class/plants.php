@@ -3,7 +3,38 @@ class plants extends animals
 {
 	function killPlants()
 	{
-		$sql = "UPDATE map SET plants = plants-".mt_rand(0,1)." WHERE temp > 100";
+		$sql = "UPDATE 
+					map as m,
+					Atmosphere as a
+				SET
+					m.plants = m.plants-(m.plants/100-(a.oxygen/10))
+				WHERE
+					(a.oxygen < 20
+					OR
+					a.CoTwo < 0.04)
+					AND
+					((m.plants-(m.plants/100-(a.oxygen/10)))>0)
+					
+					";
+		$sql2 = "UPDATE
+					map
+				 SET
+				 	plants = plants-(abs(temp)*100),
+					seeds = seeds-(abs(temp)*75)
+				 WHERE
+				 	temp > 94
+					OR
+					temp < 31
+					AND
+					((plants-(abs(temp)*100)) > 0
+					AND
+					(seeds-(abs(temp)*75)) > 0)
+				 ";
+		try { 
+				#$this->db->exec($sql);
+				#$this->db->exec($sql2);
+		}
+		catch(PDOException $e) { die($e->getMessage());}
 	}
 	function countPlants()
 	{
@@ -18,29 +49,31 @@ class plants extends animals
 		}
 	}
 //* Moving Functions to Proper Channels
-	function plants_do_breath($co)
+	function plants_do_breath()
 	{
-		//* This Function needs to be renamed/moved to better represent that it works for Ocean Oxygenation as well
-		$sql = "SELECT sum(plants) as plants FROM map";
-		$que = $this->db->prepare($sql);
-		try{
-			$que->execute();
-			$row = $que->fetch(PDO::FETCH_ASSOC);
-			 $sup = $this->allSuplies();
-			$ocean = $this->totalTypeTiles(1);
-			$water = $this->waterReserver();
-			$plankton = $water*$ocean;
-			$plants = $row['plants'];
-			$oxygen = (($plants*$plankton)*2)*TIME_CHOICE;
-			/* This Function needs to be tweaked at some point
-				Having it check for the CO2 levels and Oxygen Levels
-				causes everyone to die from suffication. Which is not good
-			*/
-				$this->update_specific_supply('COTwo',($co*-1));
-				$this->update_specific_supply('air',($oxygen));
-			$this->Rain();
+		//* This Function is Borked so much that i need to rewrite it from stratch. so for now lets just do this
 			$this->plantGrowth();
-		}catch(PDOException $e) { die('ERROR: Plants_Do_Breath');}
+	}
+	function transpirate()
+	{
+		$sql = "UPDATE map SET water = water+(plants/2) WHERE water+(plants/2) >= 0";
+		try { $this->db->exec($sql);
+						$this->randomSeedDrop();
+			}catch(PDOexception $e){die("Plant Error(P48):".$e->getMessage());}
+	}
+	function randomSeedDrop()
+	{
+		if(mt_rand(0,1))
+		{
+		$sql = "
+			UPDATE
+				map
+			SET
+				seeds = seeds+".mt_rand(1,50)."";
+		try { $this->db->exec($sql);
+						$this->killPlants();
+			}catch(PDOexception $e){die("Plant Error(P73):".$e->getMessage());}
+		}
 	}
 	function plantGrowth()
 	{
@@ -49,22 +82,31 @@ class plants extends animals
 			Plant Growth needs to be modified to effect overall population growth as well.
 		*/
 		$pop = $pop = $this->totalPopulation();
-		$growth = (mt_rand(1,20)*TIME_CHOICE);
 		if(mt_rand(0,250) <= 200)
 		{
 		$sql = "UPDATE
-					map
+					map as m,
+					Atmosphere as a
 				SET
-					plants = (plants+{$growth}*(farm+1))
+					m.plants = (m.plants+(m.seeds/2)*(m.farm+1)*(m.temp*0.8)),
+					m.seeds=seeds/2,
+					m.water = m.water-(m.plants*10),
+					a.CoTwo = a.CoTwo - (m.plants/400000000)
 				WHERE
-					temp BETWEEN 40 and 90
-                    AND water <> 0;";
+					m.temp BETWEEN 20 and 100
+                    AND m.water-(m.plants*10) > 0
+					AND
+					(m.plants+(m.seeds/2)*(m.farm+1)*(m.temp*0.8)) > 0;";
 		try {
-			$this->db->exec($sql);
-			$this->plantDeath();
+			#echo $sql; die();
+			if($this->db->exec($sql))
+			{
+				
+			}
+			$this->transpirate();
 			$c = $this->countPlants();
 			$this->message("[Enviro]Plant Growth! [Number]{$c}",'blue',30);
-		}catch(PDOException $e){}
+		}catch(PDOException $e){die("Plant Error(P78):".$e->getMessage());}
 		}
 	}
 	function plantDeath()
@@ -100,7 +142,7 @@ class plants extends animals
 				$text = "[FARMING] FARM STARTED {$e} PLANTED";
 				$this->message($text,'green',30);
 		}
-			catch(PDOException $e){ die($e->getMessage());}
+			catch(PDOException $e){ die("Plant Error(P114):".$e->getMessage());}
 	}
 	//* 
 }
