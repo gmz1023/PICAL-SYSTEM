@@ -22,6 +22,7 @@ $sql1 = "UPDATE
 			c.infected = 0,
 			c.pregnant_on = NULL,
 			c.cod = NULL,
+			c.drankOn = 0,
 			m.water = 300,
 			m.temp = 74,
 			m.wildlife = 300,

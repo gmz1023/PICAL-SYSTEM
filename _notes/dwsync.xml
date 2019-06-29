@@ -33,11 +33,14 @@
 <file name="index.php" server="192.168.1.7/PICAL/" local="132059836881210165" remote="132060795170000000" Dst="2" />
 <file name="male.txt" server="192.168.1.7/PICAL/" local="132059789959147846" remote="132060795180000000" Dst="2" />
 <file name="names.php" server="192.168.1.7/PICAL/" local="132059789959157823" remote="132060795180000000" Dst="2" />
-<file name="reset.php" server="192.168.1.7/PICAL/" local="132062117783768678" remote="132062117800000000" Dst="2" />
-<file name="run.php" server="192.168.1.7/PICAL/" local="132062092467276461" remote="132062092480000000" Dst="2" />
+<file name="reset.php" server="192.168.1.7/PICAL/" local="132062391502601787" remote="132062391510000000" Dst="2" />
+<file name="run.php" server="192.168.1.7/PICAL/" local="132062339940625272" remote="132062339950000000" Dst="2" />
 <file name="status.php" server="192.168.1.7/PICAL/" local="132059789959287480" remote="132060795180000000" Dst="2" />
 <file name="test.php" server="192.168.1.7/PICAL/" local="132062187021835662" remote="132062187030000000" Dst="2" />
 <file name="test_baby_maker.php" server="192.168.1.7/PICAL/" local="132059789959307418" remote="132060795190000000" Dst="2" />
-<file name="xml.xml" server="192.168.1.7/PICAL/" local="132059789959317405" remote="132060795190000000" Dst="2" />
+<file name="xml.xml" server="192.168.1.7/PICAL/" local="132062419447847338" remote="132062419460000000" Dst="2" />
 <file name="yob2015.txt" server="192.168.1.7/PICAL/" local="132059789959367261" remote="132060795190000000" Dst="2" />
+<file name="plants.php" server="192.168.1.7/PICAL/" local="132060385676875555" remote="132062275730000000" Dst="2" />
+<file name="SQL.sql" server="192.168.1.7/PICAL/" local="132062222562570201" remote="132062275780000000" Dst="2" />
+<file name="constants.php" server="192.168.1.7/PICAL/" local="132062457669369974" remote="132062457680000000" Dst="2" />
 </dwsync>

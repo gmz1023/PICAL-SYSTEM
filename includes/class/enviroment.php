@@ -1,4 +1,4 @@
-<?php
+a.<?php
 class enviroment extends plants
 {
 /*********************************
@@ -16,18 +16,18 @@ function UpdateTileWater($tid, $a, $lr = null)
 				SET 
 					m.water = m.water+{$a},
 					";
-			if($a > 0)
+			if($a < 0)
 			{
-				$sql .= "m.lastStorm = m.lastStorm+1 ";
+				$sql .= "m.lastStorm = m.lastStorm+1";
 			}
 			else
 			{
 				$sql .= "m.lastStorm = 0,
-					m.temp = m.temp-(m.temp*0.015)
+					m.temp = m.temp-(m.temp*0.15)
 				";
 			}
 		$sql .= 
-				"WHERE 
+				" WHERE 
 					sid = {$tid} AND m.water+{$a} >= 0
 					AND
 					m.water > 0
@@ -41,7 +41,11 @@ function UpdateTileWater($tid, $a, $lr = null)
 		 	{	
 				return false;
 			}
-			}catch(PDOException $e) {die("Water Error(P48):".$e->getMessage()); }
+			}catch(PDOException $e) {
+			echo "\n";
+			echo print_r($sql);
+			echo "\n";
+			die("Water Error(Ev48):".$e->getMessage()); }
 		
 }
 /*****************************************
@@ -53,22 +57,16 @@ function UpdateTileWater($tid, $a, $lr = null)
 	function updateAtmosphericWater()
 	{
 		//* This Function should also be used for Evaporation
-		$sql = "UPDATE 
-				Atmosphere as a
+		$sql = "UPDATE
+					map 
 				SET
-				a.water = water+(SELECT sum(water) FROM map)*(power(9,-15))
-				";
-		try{
-			if($this->db->exec($sql))
-			{
-			return true;
-			}
-			else
-		 	{	
-				return false;
-			}
-			}catch(PDOException $e) {die("Water Error(E66):".$e->getMessage()); }
-		}
+					water = water-(water/temp),
+					atmosphericWater = atmosphericWater+(water/temp)
+		";
+		try {
+			$this->db->exec($sql);
+		}catch(PDOException $e) { die($e->getMessage());}
+	}
 
 	
 /*********************************
@@ -76,17 +74,7 @@ function UpdateTileWater($tid, $a, $lr = null)
 		Weather Event Functions 
 		
 ********************************/
-	function selectEventTile()
-	{
-		$sql = "SELECT sid FROM map ORDER BY rand() LIMIT 1";
-		$que = $this->db->prepare($sql);
-		try { 
-			
-			$que->execute();
-			$row = $que->fetch(PDO::FETCH_ASSOC);
-			return $row['sid'];
-			}catch(PDOException $e) { }
-	}
+
 	function selectAverageTemperature()
 	{
 		$sql = "SELECT avg(temp) as ATemp FROM map";
@@ -126,7 +114,9 @@ function UpdateTileWater($tid, $a, $lr = null)
 		try{
 			$this->db->exec($sql);
 			
-		}catch(PDOException $e){ die('Temperature Error(E80):'. $e->getMessage());}
+		}catch(PDOException $e){ 
+			print_r($sql);
+			die('Temperature Error(E80):'. $e->getMessage());}
 
 	}
 	function Temperature($sid)
@@ -164,7 +154,7 @@ function UpdateTileWater($tid, $a, $lr = null)
 							$tmath = abs(($row['temp'])-212);
 							$loss = $tmath > 0 ? $rain/$tmath : $rain*0.001;
 							$loss = $loss*-1;
-							echo $loss."\n";
+							#echo $loss."\n";
 							$this->UpdateTileWater($row['sid'], $loss);
 						}
 						if($row['temp'] < 31)
@@ -172,7 +162,7 @@ function UpdateTileWater($tid, $a, $lr = null)
 							$tmath = ($row['temp'])-31;
 							$loss = $tmath > 0 ? $rain/$tmath : $rain*0.001;
 							$loss = $loss <> 0 ? $loss*-1 : $loss;
-							echo $loss."\n";
+							#echo $loss."\n";
 							$this->UpdateTileWater($row['sid'], $loss);
 						}
 						else
@@ -190,7 +180,7 @@ function UpdateTileWater($tid, $a, $lr = null)
 			 
 			}catch(PDOException $e){ die("Rain Error(E119):".$e->getMessage());}
 		$this->plants_do_breath();
-		$this->updateAtmosphericWater();
+		#$this->updateAtmosphericWater();
 	}
 	function RainOLD()
 	{

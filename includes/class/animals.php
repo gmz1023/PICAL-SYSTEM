@@ -34,9 +34,9 @@ class animals extends movement
 				water = 
 					CASE
 						WHEN 
-							water-(wildlife*45424) > 0 
+							water-(wildlife*10) > 0 
 						THEN 
-							water-(wildlife*45424) 
+							water-(wildlife*10) 
 						ELSE 
 							water 
 						END
@@ -54,16 +54,18 @@ class animals extends movement
 	}
 	function WildLifeReproduction()
 	{
-		if(mt_rand(0,10) == 1)
-		{
 		$sql = "
 			UPDATE 
 				map
 			SET
-				wildlife = wildlife+(wildlife/10) 
-				WHERE 
-					wildlife > 2 AND plants > wildlife;";
-		
+				wildlife = 
+				CASE
+					WHEN 
+						(wildlife > 2 AND (plants > wildlife/2))
+					THEN
+						wildlife+wildlife
+					ELSE
+						wildlife";
 		//* This will have to be updated eventually to allow animals to die off as well
 		try { 
 			$this->db->exec($sql);
@@ -71,29 +73,6 @@ class animals extends movement
 			$this->message("[Wild Life]Animal Growth", 'blue',30);
 			}
 		catch(PDOException $e) {}
-		}
-		else
-		{
-					$sql = "
-			UPDATE 
-				map
-			SET
-				wildlife = wildlife-(wildlife/5) 
-				WHERE 
-					wildlife > 2 AND plants > wildlife;";
-		
-		//* This will have to be updated eventually to allow animals to die off as well
-		try { 
-			$this->db->exec($sql);
-			$this->message("[Wild Life] No Animal Growth", 'blue',30);
-			}
-		catch(PDOException $e) {
-			die($e->getMessage());
-		}
-		
-
-			
-		}
 		$this->animals_eat_to();
 	}
 	function husbandry($tid,$e)

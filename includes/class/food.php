@@ -109,8 +109,9 @@ class food extends genes
 				try {	if($this->db->exec($sql))
 					{	
 					 	$food = 'plant';
-						$text = "[RESOURCE]{$name} ATE {$ea} {$food}";
-						$this->message($text,'danger',30);
+						
+						$text = "[RESOURCE]{$name} ATE {$ea}".weight_units." {$food}";
+						$this->message($text,'green',30);
 					$this->updateHunger($cid,0);
 					
 					}
@@ -120,9 +121,9 @@ class food extends genes
 				else
 				{
 					$this->farming($ea, $cid, $tid);
-					$text = "[RESOURCE] {$name} WENT A DAY WITHOUT FOOD AND LOST 1/{$h} HEALTH";
-					$this->message($text, 'red', '2');
-					$this->healthHitSilent($cid,-1);
+					$dx = $this->deathMessage($cid, 5,'food');
+					$this->healthHitSilent($cid,5);
+					
 				}
 				break;
 			case 1:
@@ -132,8 +133,9 @@ class food extends genes
 				try { $this->db->exec($sql);
 					 $food = 'animal';
 					$text = "[RESOURCE]{$name} ATE {$ea} {$food}";
-					$this->message($text,'danger',30);
+					$this->message($text,'green',30);
 					$this->updateHunger($cid,0);
+					 $this->healthRestore($cid,5);
 					}catch(PDOException $e) { die($e->getMessage());}
 					
 				}
@@ -142,7 +144,7 @@ class food extends genes
 					$this->husbandry($tid,mt_rand(4,8));
 					$text = "[RESOURCE] {$name} WENT A DAY WITHOUT FOOD AND LOST 1/{$h} HEALTH";
 					$this->message($text, 'red', '2');
-					$this->healthHitSilent($cid,-1);
+					$this->healthHitSilent($cid,5);
 				}
 				break;
 		}
@@ -159,29 +161,6 @@ class food extends genes
 				#die('THEY DRANK!');
 			}
 			#die('MORE WATER!!!!!');
-		}
-	}
-	function drinkOLD($cid,$tid)
-	{
-		$h = $this->getHealth($cid);
-		$name = $this->prettyName($cid);
-		$water = $this->WaterOnTile($tid);
-		//* There might eventually be a "Physically Active" flag to determine how much food/water is eatan
-		$wc = (water_consumption*TIME_CHOICE);
-		if($water-$wc >= 0)
-		{
-			$this->UpdateTileWater($tid, ($wc*-1));
-			$this->updateThirst($cid,0);
-			$this->healthHitSilent($cid,1);
-			$text = "[RESOURCE] {$name} DRANK ".$wc." Of WATER FROM {$tid} | GAINED 1hp ";
-			$this->message($text, 'happy', '2');
-		}
-		else
-		{
-
-			$text = "[RESOURCE] {$name} WENT A DAY WITHOUT WATER AND LOST 1/{$h} HEALTH";
-			$this->message($text, 'red', '2');
-			$this->healthHitSilent($cid,-1);
 		}
 	}
 	function allSuplies()

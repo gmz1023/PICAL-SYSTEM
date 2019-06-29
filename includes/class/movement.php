@@ -1,5 +1,5 @@
 <?php
-class movement
+class movement extends bacteria
 {
 	function playerMove($cid)
 	{
@@ -44,7 +44,7 @@ class movement
 				$r = 'population';
 			$move = mt_rand(-1,1);
 			//* There is no water below this temp. need to work on ICE math
-			$this->healthHitSilent($cid,-4);
+			#$this->healthHitSilent($cid,-4);
 			
 			}
 			else

@@ -15,7 +15,7 @@ class base extends maths
 	General messages pass through message
 	Death Messages pass through Death Message 
 */
-	function deathMessage($cid, $health)
+	function deathMessage($cid, $health,$p)
 	{
 		/* not actually dead people messages... these are those who survive */
 		$name = $this->prettyName($cid);
@@ -24,7 +24,7 @@ class base extends maths
 			$file = 'xml.xml';
 			$xml = simplexml_load_file($file);
 			
-			$path = $xml->xpath('surnotes');
+			$path = $xml->xpath($p);
 			
 			#$random = array_rand($path);
 			#$text = '';
@@ -42,8 +42,10 @@ class base extends maths
 			{
 				$text = preg_replace("/{name}/", $name, $text);
 			}
-			echo "\e[1;36m  [SURVIVOR]".$text."| \e[0m \n";
-				usleep(msg_delay);
+			$p = strtoupper($p);
+			$text = strtoupper($text);
+			$message = "[{$p}]".$text;
+			$this->message($message,'red', 3);
 		}
 	
 	}

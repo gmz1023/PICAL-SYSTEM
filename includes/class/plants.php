@@ -91,7 +91,8 @@ class plants extends animals
 					m.plants = (m.plants+(m.seeds/2)*(m.farm+1)*(m.temp*0.8)),
 					m.seeds=seeds/2,
 					m.water = m.water-(m.plants*10),
-					a.CoTwo = a.CoTwo - (m.plants/400000000)
+					a.CoTwo = a.CoTwo - (m.plants/40000000),
+					a.oxygen = a.oxygen+(m.plants/62607004)
 				WHERE
 					m.temp BETWEEN 20 and 100
                     AND m.water-(m.plants*10) > 0

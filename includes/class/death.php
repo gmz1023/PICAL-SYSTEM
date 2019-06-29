@@ -34,11 +34,8 @@ class death extends supplies
 	{
 		$this->lastDrankOn($cid);
 		$tid = $this->getCitizenTile($cid);
-		$temp = $this->tileTemp($tid);
-		if($temp >= 158 || $temp < -10)
-		{
-			$this->kill($cid,"Temperature Range");
-		}
+		$temp = round($this->tileTemp($tid));
+
 		//* Rewriting this function to solve health issue.
 		if($health > 0)
 		{
@@ -59,6 +56,20 @@ class death extends supplies
 				
 				#$this->kill($cid,"Starvation");
 			}
+			if($temp >= 158 || $temp < -10)
+			{
+				$this->kill($cid,"Temperature Range");
+			}
+			if($temp <= 31)
+			{
+				$this->healthHit($cid, mt_rand(1,5), 'Hypotherma');
+			}
+			if($temp >= 90)
+			{
+				$hit = abs(($temp-90));
+				$this->healthHit($cid, mt_rand($hit,100), 'Hypertherma');
+			}
+			else{}
 		}
 		else
 		{

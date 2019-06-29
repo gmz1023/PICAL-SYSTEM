@@ -43,7 +43,7 @@ class maths extends simulation
 		$dead = $this->getStatCount(-1);
 		$plants = $this->countPlants();
 		$cod = $this->leadinCOD();
-		$ox = $this->oxygenLevel();
+		$ox = 100; // * needs to be fixed
 		$LS = $this->successfulName();
 		$wa = 0;//$this->ViableWaterReserves();
 		$wl = $this->TotalWildlifePop();

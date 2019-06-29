@@ -41,29 +41,60 @@ class health extends biofunctions
 			 	return $row['infected'];
 			}catch(PDOException $e) { die("Is_Infected Failure! ".$e->getMessage());}
 	}
-	function auto_healing($cid)
-	{
-		$th = $this->isThirsty($cid);
-		$hu = $this->isHungry($cid);
-		if($th && $hu)
-		{
-			$this->healthHitSilent($cid,10);
-		}
-	}
 	function healthHitSilent($cid,$val)
 	{
-		$sql = "UPDATE citizens SET health = health+{$val} WHERE cid = {$cid}";
+		$val = abs($val);
+		$sql = "UPDATE citizens SET health = health-{$val} WHERE cid = {$cid}";
 		try {
 			$this->db->beginTransaction();
 			$this->db->exec($sql);
 			$this->db->commit();
 		}catch(PDOException $e) { $this->db->rollback(); die($e->getMessage());}
+		#print_r(debug_backtrace());
 	}
 	function healthHit($cid, $val, $r)
 	{
 		$name = $this->prettyName($cid);
-		$text = "[Health]".$name." Lost No Health -- Because this function is borked";
-		$this->message($text,'green',10);
+		$h = $this->getHealth($cid);
+		$val = abs($val);
+		if($h-$val <= 0)
+		{
+			$this->kill($cid, $r);
+		}
+		else{
+		$sql = "UPDATE citizens SET health = health-{$val} WHERE cid = {$cid}";
+		try {
+			$this->db->beginTransaction();
+			$this->db->exec($sql);
+			$this->db->commit();
+		}catch(PDOException $e) { $this->db->rollback(); die($e->getMessage());}
+		$text = "[Health]".$name." Lost {$val} Health -- {$r}";
+		$this->message($text,'red',10);
+		}
+	}
+	function healthRestore($cid,$v)
+	{
+		$sql = "UPDATE 
+					citizens
+				SET
+					health = 
+						CASE
+							WHEN
+								health+{$v} <= 100 
+							THEN 
+								health+{$v}
+							ELSE
+								100
+							END
+					WHERE
+						cid = {$cid}";
+		#print_r($sql);
+		try {
+			$this->db->beginTransaction();
+			$this->db->exec($sql);
+			$this->db->commit();
+		}catch(PDOException $e) { $this->db->rollback(); die($e->getMessage());}
+		
 	}
 	function getHealth($cid)
 	{
