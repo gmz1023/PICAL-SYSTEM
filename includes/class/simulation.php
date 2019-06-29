@@ -1,6 +1,10 @@
 <?php
 class simulation extends map
 {
+	function do_run2()
+	{
+		$this->Rain();
+	}
 	function do_run()
 	{
 		$this->updateSupplies();

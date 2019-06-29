@@ -11,6 +11,27 @@ class map extends citizens
 			return $row['tid'];
 		}catch(PDOException $e) { echo $e->getMessage();}
 	}
+	function maxPop($tid)
+	{
+		$sql = "SELECT max_pop FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try {  
+			$que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			return $row['max_pop'];
+		}catch(PDOException $e) { echo $e->getMessage();}
+	}
+	function getTilePop($tid)
+	{
+		$sql = "SELECT count(cid) as tid FROM citizens WHERE tile_id = {$tid} AND status <> -1";
+		$que = $this->db->prepare($sql);
+		try {  
+			$que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			return $row['tid'];
+		}catch(PDOException $e) { echo $e->getMessage();}
+		
+	}
 	function getMapMax()
 	{
 		$sql = "SELECT 
@@ -30,7 +51,6 @@ class map extends citizens
 		$sql = "SELECT cid FROM citizens WHERE tile_id BETWEEN {$mtid} AND {$ptid}  AND cid <> {$cid} AND relstat <> -1 ";
 		
 		try { 
-			$this->db->beginTransaction();
 			$que = $this->db->prepare($sql);
 			$que->execute();
 			$cid = [];
@@ -38,7 +58,6 @@ class map extends citizens
 			{
 				$cid[] = $row['cid'];
 			}
-			$this->db->commit();
 			return $cid;
 		}catch(PDOException $e)
 		{}
@@ -47,9 +66,12 @@ class map extends citizens
 /** Tile Types -- **/
 	function totalTypeTiles($t)
 	{
-		$sql = "SELECT sum(type) FROM map WHERE type = {$t}";
+		$sql = "SELECT count(type) as ttil FROM map WHERE type = {$t}";
 		$que = $this->db->prepare($sql);
-		try { $que->execute();}catch(PDOException $e){ }
+		try { $que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row['ttil'];
+			}catch(PDOException $e){ }
 	}
 /* Tile Supplies */
 	function tileTemp($tid)
@@ -66,6 +88,34 @@ class map extends citizens
 		$sql = "UPDATE map SET water = water+{$a} WHERE sid = {$tid}";
 		try { $this->db->exec($sql);}catch(PDOException $e) { }
 		return true;
+	}
+//* Tile Resources 
+	function PlantsOnTile($tid)
+	{
+		$sql = "SELECT plants FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try { $que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row["plants"];
+			}catch(PDOException $e) { }
+	}
+	function WildlifeOnTile($tid)
+	{
+		$sql = "SELECT wildlife FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try { $que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row["wildlife"];
+			}catch(PDOException $e) { }
+	}
+	function TotalFood($tid)
+	{
+		$sql = "SELECT wildlife+plants as food FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try { $que->execute();
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+			 return $row["food"];
+			}catch(PDOException $e) { }
 	}
 	function WaterOnTile($tid)
 	{
