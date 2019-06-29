@@ -38,15 +38,13 @@ class pregancy extends tribe
 					$dname = $this->prettyName($dad);
 		if($stat == 3)
 		{
-			if(mt_rand(0,900) == 900)
+			if(mt_rand(0,100) == 2)
 			{
 				$this->kill($mom, 'childbirth');
 			}
 			elseif(mt_rand(0,99999999) == 9)
 			{
-				/* Probably not rare enough but essentially a dad flips shit. Murder Suicide. I'll probably be adding more dark things here */
-				#$this->kill($mom, 'rampage');
-				#$this->kill($dad, 'rampage');
+				//* This Needs to be altered to allow for the mother to die but the newborn to live.
 			}
 			else
 			{

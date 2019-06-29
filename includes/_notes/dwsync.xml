@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name="functions.php" server="10.0.0.25/public_html/" local="131353034859015123" remote="131378126400000000" Dst="2" />
-<file name="constants.php" server="10.0.0.25/public_html/" local="131384063717067489" remote="131383143000000000" Dst="2" />
 <file name="db.php" server="10.0.0.25/public_html/" local="131379042615495796" remote="131379027000000000" Dst="2" />
-<file name="constants.php" server="10.0.0.240" local="131387155054048202" remote="131387154600000000" Dst="2" />
 <file name="functions.php" server="10.0.0.240" local="131353034859015123" remote="131387154600000000" Dst="2" />
 <file name="db.php" server="10.0.0.240" local="131379042615495796" remote="131387154600000000" Dst="2" />
-<file name="constants.php" server="10.0.0.240/public_html/" local="131387155821768526" remote="131387155800000000" Dst="2" />
 <file name="functions.php" server="10.0.0.240/public_html/" local="131353034859015123" remote="131387158800000000" Dst="2" />
 <file name="db.php" server="10.0.0.240/public_html/" local="131387429734730702" remote="131387429400000000" Dst="2" />
 <file name="db.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584240000000" Dst="2" />
-<file name="constants.php" server="192.168.1.4/TEMPLAR/" local="131801776915467469" remote="131801777840000000" Dst="2" />
 <file name="functions.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584240000000" Dst="2" />
-<file name="constants.php" server="192.168.1.7/PICAL/" local="132062125269181561" remote="132062125280000000" Dst="2" />
 <file name="db.php" server="192.168.1.7/PICAL/" local="132059789959127897" remote="132060795170000000" Dst="2" />
 <file name="functions.php" server="192.168.1.7/PICAL/" local="132059789959137875" remote="132060795170000000" Dst="2" />
 </dwsync>

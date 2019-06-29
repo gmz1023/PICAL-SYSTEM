@@ -38,12 +38,18 @@
 		<deathnote>{name} took off his helmet</deathnote>
 		<deathnote>{name} opened the door</deathnote>
 		<deathnote>{name} lit a cigarette in a pure oxygen enviroment</deathnote>
-		<deathnote>{name} went on a rampage</deathnote>
+		<deathnote>{name} went on a rampage, and died</deathnote>
 		<deathnote>{name} doesn't know the difference between inflammable and non-flammable</deathnote>
 		<deathnote>{name} was vored by the plant monster</deathnote>
 		<deathnote>{name} vored themselves to death</deathnote>
 		<deathnote>{name} asked the question</deathnote>
 		<deathnote>{name} fell on their own face</deathnote>
 	</deathnotes>
+	<food>
+		<food>{name} is hungry</food>
+		<food>{name} has not eaten anything this cycle!</food>
+		<food>Unable to find food, {name} goes to bed hungry</food>
+		<food>{name} is hungry</food>
+	</food>
 </xml>
 	

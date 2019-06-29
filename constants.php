@@ -15,7 +15,7 @@ define("DB_NAME", "lurch");
 	
 */
 define("GAY_SEX", 'on');
-define("extra_info",0);
+define("extra_info",100);
 /* 
 	Citizen Standards
 */
@@ -31,7 +31,7 @@ define("extra_info",0);
 	1 second = 1000000;
 */
 
-define("sleep_state", 'd'); /* On/Off */
+define("sleep_state", 'speedrun'); /* On/Off */
 define("sleep_type", 'debug'); /* u uses usleep | s uses sleep default at s */
 switch(sleep_state)
 {
@@ -41,7 +41,7 @@ switch(sleep_state)
 		define("TIME_CHOICE", mt_rand(1,30));
 		break;
 	case 'speedrun':
-		define("sleep_var", 100000);
+		define("sleep_var", 1000);
 		define("msg_delay", 5);
 		define("TIME_CHOICE", 40);
 		break;
@@ -64,8 +64,10 @@ switch(sleep_state)
 	
 /* Simulation Constants */
 #define("TIME_STEP", '+13563 minutes');
+define("weight_units", "g");
+define("liquid_units", "l");
 define("water_consumption",2000*TIME_CHOICE);
-define("food_consumption", 20*TIME_CHOICE);
+define("food_consumption", 4.5*TIME_CHOICE);
 define("average_global_temp", 74);
 define("max_local_temp", 140);
 define("min_local_temp", -130);
