@@ -3,7 +3,8 @@ require_once('includes/db.php');
 $sql1 = "UPDATE 
 			citizens as c, 
 			timestep as t,
-			supplies as s
+			supplies as s,
+			map as m
 		SET 
 			s.food = 1000,
 			s.water = 1000,
@@ -15,11 +16,13 @@ $sql1 = "UPDATE
 			c.spouse_id = NULL, 
 			c.born_on = '0982-00-00 00:00:00', 
 			c.health = 100, 
-			c.thirst = 100,
-			c.hunger = 100,
+			c.thirst = 1,
+			c.hunger = 1,
 			c.infected = 0,
 			c.pregnant_on = NULL,
 			c.cod = NULL,
+			m.water = 300,
+			m.temp = 74,
 			t.`simTime` = '1000-00-00 00:00:00';";
 $sql2 = "DELETE FROM `lurch`.`citizens` WHERE `citizens`.`cid` > 10";
 $sql3 = "DELETE FROM `lurch`.`genetics` WHERE `genetics`.`cid` > 10";

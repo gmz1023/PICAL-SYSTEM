@@ -62,7 +62,7 @@ class citizens extends family
 			}
 		catch(PDOException $e)
 		{
-			
+			die($e->getMessage());	
 		}
 	}
 	/************************************************

@@ -48,7 +48,7 @@ if($population == 0)
 	$_SESSION['loop'] = $_SESSION['loop']+1;
 	$loop = $_SESSION['loop'];
 	$day = $diff->d;
-	echo "\e[7m INT {$it}.{$loop}|Pop 0/{$oPop}|infected {$infect}|{$cit->getTime()}|Sim Length: ".$diff->y." Years ".$diff->m." Months ".$diff->d." Days|Average IQ {$iq} \e[0m \n";
+	echo "\e[7m INT {$it}.{$loop}|Pop 0/{$oPop}|infected {$infect}|{$cit->getTime()}|Sim Length: ".$diff->y." Years ".$diff->m." Months ".$diff->d." Days|Average IQ {$iq} | [Average Temp] {$cit->selectAverageTemperature()} \e[0m  \n";
 	if($cit->stats())
 	{
 	sleep(1);
@@ -67,7 +67,7 @@ else
 			$cit->do_run();
 		$_SESSION['loop'] = $_SESSION['loop']+1;
 	$loop = $_SESSION['loop'];
-			echo "\e[7m INT {$it}.{$loop} | Time: {$cit->getTime()} | Pop:{$population}/{$oPop} | infected {$infect}| TFS: ".$diff->y." Years ".$diff->m." Months ".$diff->d."Days | AverageIQ {$iq}\e[0m \n";
+			echo "\e[7m INT {$it}.{$loop} | Time: {$cit->getTime()} | Pop:{$population}/{$oPop} | infected {$infect}| TFS: ".$diff->y." Years ".$diff->m." Months ".$diff->d."Days | AverageIQ {$iq}| | [Average Temp] {$cit->selectAverageTemperature()}\e[0m \n";
 }
 }
 ?>
