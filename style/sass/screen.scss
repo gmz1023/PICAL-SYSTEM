@@ -1,0 +1,84 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+html,body {
+	background-color: #313131;
+}
+body {
+}
+#console {
+	background-color: 333;
+	float: right;
+	width: 78vw;
+	height: 100vh;
+	overflow:scroll;
+	.log_con {
+		position: relative;
+		top: 4vh;
+	div {
+		border-bottom: 1px solid black;
+		padding: 1em;
+		color: #fff;
+		font-weight: bold;
+	}
+	font-weight: bold;
+		display: block;
+		.red {
+			background-color: #660A0C;
+			color: #fff;
+		}
+		.dead {
+			background-color: #151414;
+			border: 1px dashed red;
+		}
+		.green, .happy {
+			background-color: #138E1D;
+		}
+		
+	.blue {
+		background-color: #11369C;
+		color: #fff;
+	}
+	}
+	.stats {
+		background-color: #f1f1f1;
+		color: #000;
+		width: 100%;
+		position: static;
+		top: 0;
+		line-height: 4vh;
+		font-weight: bold;
+		height: 4vh;
+	}
+}
+#registry
+{
+	float: left;
+	box-sizing: border-box;
+	width: 19.5vw;
+	overflow: scroll;
+	height: 100vh;
+	ul {
+		box-sizing: border-box;
+		background-color: #f1f1f1;
+		li {
+				margin-left: 25px;
+				padding: 15px;
+				border-bottom: 1px solid black;
+			a {
+
+				&.alive {
+					color: darkgreen;;
+					font-weight: bold;
+				}
+				&.dead {
+					color: black;
+					font-weight: bold;
+				}
+			}
+		}
+	}
+}

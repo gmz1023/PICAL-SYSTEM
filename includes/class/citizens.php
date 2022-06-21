@@ -8,6 +8,7 @@ class citizens extends family
 			This section is deticated to the X and Y chromosone
 	
 	*************************************************/
+
 	function getGender($cid)
 	{
 		$sql = "SELECT gender FROM citizens WHERE cid = {$cid}";
@@ -89,21 +90,52 @@ class citizens extends family
 	************************************************/
 	function getName($cid)
 	{
-		$sql = "SELECT first_name, last_name FROM citizens WHERE cid = :cid";
-		$que = $this->db->prepare($sql);
-		$que->bindParam(':cid', $cid);
-		try { 
-			$que->execute(); 
-			$row = $que->fetch(PDO::FETCH_ASSOC);
-			} catch(PDOException $e) { echo $e->getMessage(); } 
-		return $row;
+		if(!is_null($cid)){
+			if($cid == 0)
+			{
+				return array('last_name'=>$this->getRandomSurName(),'first_name'=>'God');
+			}
+			else
+			{
+			$sql = "SELECT 
+						(SELECT last_name FROM citizens WHERE cid = {$cid}) as afn,
+						(SELECT last_name FROM citizens WHERE cid = {$cid}) as aln,
+						(SELECT first_name FROM gravestones WHERE cid = {$cid}) as dfn,
+						(SELECT last_name FROM gravestones WHERE cid = {$cid}) as dln
+						FROM
+							citizens
+						";
+			$que = $this->db->prepare($sql);
+
+			try { 
+				$que->execute(); 
+				$row = $que->fetch(PDO::FETCH_ASSOC);
+				if(!$row)
+				{
+					return array('last_name'=>0,'first_name'=>0);
+				}
+				else{
+				$first = !is_null($row['afn']) ? $row['afn'] : $row['dfn'];
+				$last = !is_null($row['aln'])  ? $row['aln'] : $row['dln'];
+				$ar = array('first_name'=>$first,'last_name'=>$last);
+
+				return $ar;
+				}
+				} catch(PDOException $e) { echo $e->getMessage(); } 
+		}
+		}
+	else
+	{
+		return '0';
+	}
 	}
 	function prettyName($cid)
 	{
 		$name = $this->getName($cid);
 		
-		return $name['first_name'].' '.$name['last_name'];
-		
+		$name = $name['first_name'].' '.$name['last_name'];
+		return $name;
+		echo $name."\n";
 	}
 	function newName($gender)
 	{
@@ -122,20 +154,43 @@ class citizens extends family
 		$sql = "UPDATE citizens SET last_name = '{$lastname}' WHERE cid = {$cit}";
 		try { $this->db->exec($sql);}catch(PDOException $e) { echo $e->getMessage(); }
 	}
-	function surname_morpher($fname, $mname)
+	function getRandomSurName()
+	{
+		$sql = "SELECT lastName FROM last_names ORDER BY rand() LIMIT 1";
+		$que = $this->db->prepare($sql);
+		try { 
+			$que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			return $row['lastName'];
+		}catch(PDOException $e) { die($e->getMessage());}
+	}
+	function surname_morpher($fn, $mn)
 	{
 		/* Need to figure out how to make this work how I want it to work -- 
 			Ideally it'll merge to names like Eiffel and Lovelace into Eiffelace or something
 		*/
-		if(is_null($fname))
+		$fn = !is_null($fn) ? $fn : $this->getRandomSurName();
+		$mn = !is_null($mn) ? $mn : $this->getRandomSurName();
+		$ch = mt_rand(0,10);
+		switch($ch)
 		{
-			$lname = $mname;
+			case 5:
+				$name = substr($fn,mt_rand(1,strlen($fn)),mt_rand(1,strlen($fn)));
+				$name .= substr($mn,mt_rand(1,strlen($mn)),mt_rand(1,strlen($mn)));
+				if(strlen($name) < 5 )
+				{
+					$name = mt_rand(0,1) == 1 ? $fn : $mn;
+				}
+				else
+				{
+					$name = $name;
+				}
+			break;
+			default: 
+				$name = $fn;
+				break;
 		}
-		else
-		{
-			$lname = $fname;
-		}
-		return $lname;
+		return $name;
 		
 	}
 	/************************************************

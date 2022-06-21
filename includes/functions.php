@@ -1,12 +1,15 @@
 <?php
-function __autoload($class_name) {
-   #$class_name = strtolower($class_name);
-   $path       = 'includes/class/'.$class_name.".php";
-   if (file_exists($path)) {
+spl_autoload_register(function ($name) {
+	$file = $name.'.php';
+
+		$path = "./includes/class/".$file;
+try {
+   	if (file_exists($path)) {
        require_once($path);
 	  
-   } else {
-	   
-       die("The file {$class_name}.php could not be found! \n");
-   }
-}
+   	} else {
+       die("The file {$path} could not be found! \n");
+
+   	}
+}catch(exception $e) { echo $e->getMessage();}
+});

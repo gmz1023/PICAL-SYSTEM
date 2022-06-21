@@ -11,5 +11,5 @@ $db = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
 	try { $db->exec("CREATE DATABASE ".DB_NAME); } catch(PDOException $e) { die($e->getMessage());}
 }
 
-include('functions.php');
+include(ABS_PATH.'/includes/functions.php');
 ?>

@@ -1,90 +1,29 @@
 <?php
-require_once('includes/db.php');
+require_once('./includes/db.php');
+$_SESSION = array('rc'=>0,'it'=>0,'loop'=>0);
 
-if(isset($_SESSION['it']))
-{
-	$_SESSION['it'] = $_SESSION['it']+1;
-	$_SESSION['loop'] = 0;
-}
-else
-{
-	$_SESSION['it'] = 0;
-	$_SESSION['loop'] = 0;
-}
-$it = $_SESSION['it'];
-while(true)
-{
-
-	if(sleep_state == 'on') { 
-	switch(sleep_type)
-	{
-		case 'u':
-			usleep(sleep_var);
-			break;
-		case 's':
-			sleep(sleep_var);
-			break;
-		default:
-			sleep(sleep_var);
-			break;
-	}
-} 
-$cit = new base($db,$_SESSION['loop']);
-	$iq = $cit->averageIQ();
-
-$population = $cit->totalPopulation();
-$infect = $cit->selectInfectedPop();
-$oPop = $cit->overallPopulation();
 $starttime = '1000-00-00 00:00:00';
+$i = 0;
+$x = 0;
+do{
+	$cit = new base($db,$_SESSION['loop']);
+	$start = microtime(true);
+	$cit->rain();
+	$cit->do_run();
+	//sleep(1);
+	$pop = $cit->totalPopulation();
+	$cit->ConstantMutationRate();
+	$end = microtime(true);
+	$r = $cit->getGenderRatio();
 	$time = $cit->getTime();
-	$d1 = new DateTime($time);
-	$d2 = new DateTime($starttime);
-	$diff = $d2->diff($d1);
-if($d1->format('m') == 12 && $d1->format('d') == 25 )
-{
-	$cit->message("MERRY MURDERVERSARY!",'green',9);
-}
+	$iq = $cit->averageIQ();
+	$_SESSION['it']++;
+	echo 'Iteration'.$_SESSION['it'].' Loop'.$_SESSION['loop']." Pop".$pop. " IQ : {$iq} | {$r} | Execution Time {$time}\n";
+	echo $end-$start."\n";
+	$cit = '';
 
-if($population == -1)
-{
-	$cit->stats();
-	$_SESSION['loop'] = $_SESSION['loop']+1;
-	$loop = $_SESSION['loop'];
-	$day = $diff->d;
-	echo "\e[7m INT {$it}.{$loop}|Pop 0/{$oPop}|infected {$infect}|{$cit->getTime()}|Sim Length: ".$diff->y." Years ".$diff->m." Months ".$diff->d." Days|Average IQ {$iq} | [Average Temp] {$cit->selectAverageTemperature()} \e[0m  \n";
-	if($cit->stats())
-	{
-	sleep(1);
-	#include('run.php');
-	echo "\e[41;4;33m";
-		echo "PICAL PROGRAM VERSION {$_SESSION['loop']} \e[0m \n";
-		sleep(1);
-		echo "\e[41;4;33m";
-		echo "STATUS: FAILED \n";
-		echo "\e[41;4;33m";
-		echo "LOAD SEQ. \n \e[0m ";
-		echo "";
-		sleep(1);
-		echo "\n";
-		sleep(1);
-		echo "\n";
-		include('reset.php');
-		include('run.php');
-		exit;
-	}
-}
-else
-{
-	if($_SESSION['loop'] % 2 == 0)
-	{
-		$cit->stats();
-		$cit->message('[STATS RECORDED]','green',0);
-	}
-			$cit->do_run();
-		$_SESSION['loop'] = $_SESSION['loop']+1;
-	$loop = $_SESSION['loop'];
+}while(1 == 1);
 
-			echo "\e[7m INT {$it}.{$loop} | Time: {$cit->getTime()} | Pop:{$population}/{$oPop} | infected {$infect}| TFS: ".$diff->y." Years ".$diff->m." Months ".$diff->d."Days | AverageIQ {$iq}| | [Average Temp] {$cit->selectAverageTemperature()}\e[0m \n";
-}
-}
+//include('genetics.php');
+//include('run.php');
 ?>

@@ -1,108 +1,73 @@
 <?php
 class genes extends virus
 {
-	function getCitizenGenetics($cid)
-	{
-				$sql = "SELECT
-					infert1,
-					BRAC1,
-					BRAC2,
-					BRAC3,
-					stnk1,
-					imm00,
-					imm01,
-					imm02,
-					imm03,
-					imm04,
-					imm05,
-					imm06,
-					imm07,
-					imm08,
-					imm09,
-					imm10,
-					imm11,
-					imm12,
-					g.gdisorder
-				FROM genetics as g
-				WHERE cid = {$cid}
-				LIMIT 1;";
-		$que = $this->db->prepare($sql);
-		try { 
-				$que->execute();
-				$row = $que->fetch(PDO::FETCH_ASSOC);
-			
-			return $row;
-			
-		}
-		catch(PDOException $e) { echo $e->getMessage();}
-	}
 	function getParentsGenetics($m,$d)
 	{
-		/* Select Genetic Information from a single parent: ideally this would be altered to mix the two 
-		but I'm working to get the whole thing "Generally" functional, not "Fully" functional.
-		Right now it returns the fetch array (Through newCitizens -- that should change too) to insertNewGenetics where the mutations are handled
-		*/
-		$sql = "SELECT
-					infert1,
-					BRAC1,
-					BRAC2,
-					BRAC3,
-					stnk1,
-					imm00,
-					imm01,
-					imm02,
-					imm03,
-					imm04,
-					imm05,
-					imm06,
-					imm07,
-					imm08,
-					imm09,
-					imm10,
-					imm11,
-					imm12,
-					g.gdisorder
-				FROM genetics as g
-				WHERE cid in({$m},{$d})
-				ORDER BY rand()
-				LIMIT 1;";
+		if($m == 0 || $d == 0)
+		{
+			$m = $this->newGenome();
+			$d = $this->newGenome();
+			$array = array($m,$d);
+		}
+		else
+		{
+		$sql = "SELECT genome, dead_dna FROM genetics WHERE (genome.cid = {$m} OR  genome.cid = {$d}) OR (dead_dna.cid = {$m}) OR dead_dna.cid = {$d})";
 		$que = $this->db->prepare($sql);
 		try { 
-				$que->execute();
-				$row = $que->fetch(PDO::FETCH_ASSOC);
-			
-			return $row;
-			
+			$array = [];
+			$que->execute();
+			while($row = $que->fetch(PDO::FETCH_ASSOC))
+			{
+				$array[] = $row['genome']; 
+			}
+		
 		}
-		catch(PDOException $e) { echo $e->getMessage();}
+			catch(PDOEXception $e) { die($e->getMessage());}
+
+		}
+		return $array;
 	}
+	function newGenome()
+	{
+		$genome = '';
+		$array = array('A','C','G','T');
+		for($i = 0; $i < 100; $i++)
+		{
+			shuffle($array);
+			$genome .= $array[0];
+		}
+		return $genome;
+	}
+	function geneticMixer($p, $birth = null)
+	{
+			$m = $p[0];
+			$d = $p[1];
+			$ml = strlen($m);
+			$dl = strlen($d);
+			$mito = substr($m,0,25);
+			$seq = $mito;
+			$dad = substr($d,25,$dl);
+			$mom = substr($m,25,$ml);
+			$s = $dad;
+			$s .= $mom;
+			$s = str_shuffle($s);
+			$combo = substr($s,0,75);
+			$seq .= $combo;
+			if($birth == true && mt_rand(1,mutation_chance/1000) == 1)
+			{
+			 $seq=	$this->mutate($seq);
+			}
+			return $seq;
+	}
+	
 	function insertNewGenetics($g)
 	{
 		/* Handles the new genetic inserts as well as mutations, as mentioned in the above functions, this should be chaned/simplified */
-		$keys = '';
-		$val = '';
-					#print_r($g);
-		foreach($g as $x=>$v)
-		{
-
-			if(mt_rand(0,99999999) <= mt_rand(0,999))
-			{
-				$val .= $v+mt_rand(-1,1).","; 
-			}
-			else
-			{
-				$val .= $v.","; 
-			}
-			$keys .= $x.",";
-		}
-		$key_trim = trim($keys,',');
-		$val_trim = trim($val,',');
 		$sql = "
 		INSERT INTO genetics
-		(".$key_trim."
-		)
+		(genome)
 		VALUES
-		({$val_trim})";
+		('{$g}')";
 		
 				
 		#print_r($sql);
@@ -119,15 +84,69 @@ class genes extends virus
 	Update Genetics / Mutate Genetics
 
 */
-	function mutation($gene, $val, $cid)
+	function ConstantMutationRate()
 	{
-		/* Can only change a gene plus or minus */
-		$sql = "UPDATE genetics SET {$gene} = {$gene}+({$val}) WHERE cid = {$cid};";
-		try { 
-			$this->db->beginTransaction();
-			$this->db->exec($sql);
-			$this->db->commit();
-			$this->message('Mutation Occured!', 'blue', '3');
-		}catch(PDOException $e) { die("Mutation Fault: ".$e->getMessage());}
+		$sql = "SELECT 
+			c.cid,
+			g.genome as seq
+		FROM
+			citizens as c,
+			genetics as g
+		WHERE
+			c.cid = g.cid
+		AND
+			status > 0
+			";
+
 	}
+	function updateMutation($seq,$cid)
+	{
+		echo "Mutation has occured IN {$cid}) /n";
+		$seq = $this->mutate($seq);
+		$sql = "UPDATE genetics SET genome = :seq WHERE cid = :cid";
+		$que = $this->db->prepare($sql);
+		$que->bindParam(":cid",$cid);
+		$que->bindParam(":seq",$seq);
+		try { $que->execute();}catch(PDOException $e) { die($e->getMessage());}
+	}
+	function mutate($seq)
+	{
+
+		$mito = substr($seq,0,25);
+		$array = array('del','insert','dup','inv');
+		$c = count($array)-1;
+		$s = $array[mt_rand(0,$c)];
+		switch($s)
+		{
+			case 'del':
+				$seq = str_split($seq);
+				$c = count($seq)-1;
+				unset($seq[mt_rand(0,$c)]);
+				$seq = implode('',$seq);
+				break;
+			case 'insert':
+				$array = array('A','C','G','T');
+				$c = count($array)-1;
+				$add = $array[mt_rand(0,$c)];
+				$seq .= $add;
+			break;
+			case 'dup':
+				$seq2 = str_split($seq);
+				$c = count($seq2)-36;
+				$x = 20+mt_rand(0,$c);
+				$text = '';
+				for($i = 1; $i <= 10; $i++)
+				{
+					$y = $x+$i;
+					$seq .= $seq2[$y];
+				}
+			break;
+			default:
+				// Do nothing currently
+				break;
+				
+		}
+		return $seq;
+	}
+
 }

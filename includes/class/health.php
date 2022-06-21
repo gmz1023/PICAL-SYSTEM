@@ -5,15 +5,15 @@ class health extends biofunctions
 	{
 		$sql = "SELECT cid, health,thirst,hunger,inti FROM citizens WHERE status = 1 ORDER BY rand()";
 		$que = $this->db->prepare($sql);
-		$sup = $this->allSuplies();
-		$ox = $sup['air'];
+//		$sup = $this->allSuplies();
+		$ox = 100;
 		try { 
 			
 			$que->execute(); 
 			while($row = $que->fetch(PDO::FETCH_ASSOC))
 			{
 				$this->playerMove($row['cid']);
-				$this->killCitizens($row['cid'],$row['health'],$row['thirst'],$row['hunger'],$ox,$row['inti']);
+				$this->killCitizens($row['cid'],$row['health']);
 				/* Uncomment the code below only when testing things that need a fresh run to die quickly */
 				#$this->kill($row['cid'], 0);
 
@@ -40,17 +40,6 @@ class health extends biofunctions
 				$row = $que->fetch(PDO::FETCH_ASSOC);
 			 	return $row['infected'];
 			}catch(PDOException $e) { die("Is_Infected Failure! ".$e->getMessage());}
-	}
-	function healthHitSilent($cid,$val)
-	{
-		$val = abs($val);
-		$sql = "UPDATE citizens SET health = health-{$val} WHERE cid = {$cid}";
-		try {
-			$this->db->beginTransaction();
-			$this->db->exec($sql);
-			$this->db->commit();
-		}catch(PDOException $e) { $this->db->rollback(); die($e->getMessage());}
-		#print_r(debug_backtrace());
 	}
 	function healthHit($cid, $val, $r)
 	{
@@ -99,12 +88,19 @@ class health extends biofunctions
 	function getHealth($cid)
 	{
 		$sql = "SELECT health FROM citizens WHERE cid = {$cid} AND status = 1;";
+		echo "this is the fault";
 		$que = $this->db->prepare($sql);
-
+		//echo $sql."\n";
 		try { 
 			$que->execute();
 			$row = $que->fetch(PDO::FETCH_ASSOC);
+			if($row){
 			return $row['health'];
+			}
+			else
+			{
+
+			}
 		}catch(PDOException $e) { die("Get Health fault: ".$e->getMessage());}
 		return true;
 	}
@@ -138,71 +134,5 @@ class health extends biofunctions
 		}
 		
 	}
-/* Generic Disease Functions */
-	function cancerHiter($cid)
-	{
-		$g = $this->getCitizenGenetics($cid);
-		return ($g['BRAC1'] +$g['BRAC2'] + $g['BRAC3']);
-	}
-	function diseaseStuff($cid, $age)
-	{
-		$chance = 10;
-		if($age >= 45)
-		{
-			#$this->healthHit($cid,mt_rand(4,$age),'age');
-		}
-		$g = $this->getCitizenGenetics($cid);
-		$cancer = ($g['BRAC1'] +$g['BRAC2'] + $g['BRAC3']);
-		$this->cancer($cid,$age,$cancer);
-	}
-	function immunityCheck($cid)
-	{
-		$g = $this->getCitizenGenetics($cid);
-		$immunity = 0;
-		foreach($g as $k=>$v)
-		{
-			if(preg_match("/imm[0-1][0-3]/", $k))
-			{
-				$immunity = $immunity+$v;
-			}
-			else
-			{
-				
-			}
-		}
-		return $immunity;
-		
-	}
-	/*
-	Specific Genetic / Enviromental Functions -- Cancer
-	*/
-	function cancer($cid, $age, $c)
-	{	
-		if($c <= 0)
-		{
-			if($age <= mt_rand(45,100))
-			{
-				if(mt_rand(0,100) <= mt_rand(0,$age))
-				{
-					$val = mt_rand(-1,1);
-					$gene = "BRAC".mt_rand(1,3);
-					$this->mutation($gene, $val, $cid);
-				}
-				
-			}
-		}
-		else
-		{
-			if(mt_rand(3,mt_rand(4,60)) == mt_rand(0,$c))
-			{
-				$hit = 15*$c;
-				#$this->healthHit($cid,mt_rand(1,$c));
-				$pretty = $this->prettyName($cid);
-				$health = $this->getHealth($cid);
-				$this->message("{$pretty} Withered from Cancer | $health",'red');
-			}
-		}
-	}
-	/* Killing of Citizens*/
 
 }

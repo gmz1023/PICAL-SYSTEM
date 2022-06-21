@@ -1,14 +1,36 @@
 <?php
 class map extends citizens
 {
+	function improvements($sid)
+	{
+		$array = array('well','farm','ranch');
+		$choice = $array[mt_rand(0,2)];
+		$sql = "UPDATE map SET ".$choice." = ".($choice)."+1 WHERE sid = {$sid} AND ".$choice."+1 < 10 AND (SELECT avg(inti) FROM citizens WHERE tile_id = {$sid}) > 100;";
+		try { $this->db->exec($sql);}catch(PDOException $e) { die($e->getMessage());}
+	}
+	function getTileStats($tid,$d)
+	{
+		$sql = "SELECT {$d} FROM map WHERE sid = {$tid}";
+		$que = $this->db->prepare($sql);
+		try { 
+			$que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			return $row;
+		}catch(PDOException $e) { die($e->getMessage());}
+	}
 	function getCitizenTile($cid)
 	{
 		$sql = "SELECT tile_id as tid FROM citizens WHERE cid = {$cid}";
 		$que = $this->db->prepare($sql);
 		try {  
 			$que->execute();
-			$row = $que->fetch(PDO::FETCH_ASSOC);
+			if($row = $que->fetch(PDO::FETCH_ASSOC)){
 			return $row['tid'];
+			}
+			else
+			{
+				return 1;
+			}
 		}catch(PDOException $e) { echo $e->getMessage();}
 	}
 	function maxPop($tid)
@@ -23,7 +45,7 @@ class map extends citizens
 	}
 	function getTilePop($tid)
 	{
-		$sql = "SELECT count(cid) as tid FROM citizens WHERE tile_id = {$tid} AND status <> -1";
+		$sql = "SELECT count(cid) as tid FROM citizens WHERE tile_id = {$tid} AND status > 0";
 		$que = $this->db->prepare($sql);
 		try {  
 			$que->execute();
@@ -34,15 +56,8 @@ class map extends citizens
 	}
 	function getMapMax()
 	{
-		$sql = "SELECT 
-				(SELECT sid FROM map ORDER BY sid DESC LIMIT 1) as max_lim,
-				(SELECT sid FROM map ORDER BY sid ASC LIMIT 1) as min_lim";
-		$que = $this->db->prepare($sql);
-		try { $que->execute();
-			$row = $que->fetch(PDO::FETCH_ASSOC);
-			 return $row;
-			}
-		catch(PDOException $e) {}
+		return array('max_lim'=>4,'min_lim'=>1);
+		
 	}
 	function distanceCheck($tid, $cid)
 	{

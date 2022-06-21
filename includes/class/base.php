@@ -11,44 +11,24 @@ class base extends maths
 		#$this->debugger();
 		$this->population = $this->totalPopulation();
 	}
+	function LogData($msg,$color,$level)
+	{
+		$sql = "INSERT INTO console(text,color,level) VALUES (:msg,:color,:lvl)";
+		$que = $this->db->prepare($sql);
+		$que->bindParam(':msg',$msg);
+		$que->bindParam(':color',$color);
+		$que->bindParam(':lvl',$level);
+		try { $que->execute();}catch(PDOException $e) { die($e->getMessage());}
+	}
+	function iterationInfo($it,$loop)
+	{
+		$sql = "INSERT INTO `stats` (`sid`, `time_step`, `it`, `cycle`, `pop`, `pregnant`, `infected`, `dead`, `topDeathCause`, `last_name`, `sucessors`, `plants`, `air`, `water`, `wildlife`, `avgTemp`) VALUES (NULL, '', '{$it}', '{$loop}', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');";
+		try { $this->db->exec($sql);}catch(PDOException $e) { die($e->getMessage());}
+	}
 /* Messaging Functions
 	General messages pass through message
 	Death Messages pass through Death Message 
 */
-	function deathMessage($cid, $health,$p)
-	{
-		/* not actually dead people messages... these are those who survive */
-		$name = $this->prettyName($cid);
-		if(extra_info >= 3)
-		{
-			$file = 'xml.xml';
-			$xml = simplexml_load_file($file);
-			
-			$path = $xml->xpath($p);
-			
-			#$random = array_rand($path);
-			#$text = '';
-			$message = [];
-			foreach($path as $v)
-			{
-				foreach($v as $k)
-				{
-					$message[] = (string)$k;
-				}
-			}
-			$c = count($message)-1;
-			$text = $message[mt_rand(0,$c)];
-			if(preg_match("/{name}/", $text))
-			{
-				$text = preg_replace("/{name}/", $name, $text);
-			}
-			$p = strtoupper($p);
-			$text = strtoupper($text);
-			$message = "[{$p}]".$text;
-			$this->message($message,'red', 3);
-		}
-	
-	}
 	function lifeMessages($cid, $r =NULL)
 	{
 		/* These ones are actually people who have died... Book of the dead, book of the living */
@@ -87,7 +67,8 @@ class base extends maths
 			}
 			$pop = $this->totalPopulation();
 			#print_r(debug_backtrace());
-			echo "\e[1;41m  [DEAD][{$cid}]".$text."| Pop Remaining: {$pop} \e[0m \n";
+			$msg = "[DEAD][{$cid}]".$text."| Pop Remaining: {$pop}";
+			 $this->message($msg,'dead', 0);
 			#	sleep(1);
 			
 		}
@@ -100,45 +81,46 @@ class base extends maths
 		switch($col)
 		{
 			case "info":
-				$color = "\e[7m ";
+				$color = "blue";
 				break;
 			case "red":
-				$color ="\e[1;31m ";
+				$color ="red";
 				break;
 			case "red-bg":
-				$color ="\e[3;37m ";
+				$color ="red";
 				break;
 			case "happy":
-				$color = "\e[22;32m ";
+				$color = "hap";
 				break;
 			case "green":
-				$color ="\e[1;32m ";
+				$color ="green";
 				break;
 			case "blue":
-				$color ="\e[1;34m ";
+				$color ="blue";
 				break;
 			case "yellow":
-				$color ="\e[1;33m ";
+				$color ="yellow";
 				break;
 			case "danger":
-				$color = "\e[1;41m ";
+				$color = "danger ";
 				break;
 			case "m":
-				$color = "\e[34m "; 
+				$color = "m"; 
 				break;
 			case "f":
-				$color = "\e[35m "; 
+				$color = "f"; 
 				break;
 			case 'inv':
-				$color = "\e[7m ";
+				$color = "inv";
 				break;
 			default:
-				$color ="\e[1;36m ";
+				$color ="normal";
 				break;
 		}
-		echo "{$color} {$message} \e[0m \n";
+		$msg = "{$color} {$message} \e[0m \n";
+		if(debug == 'on') {	echo $msg; }
+			$this->LogData($message,$col,$level);
 		}
-		usleep(msg_delay);
 	}
 /**************************************************************
     

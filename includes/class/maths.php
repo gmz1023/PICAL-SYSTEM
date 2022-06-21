@@ -2,6 +2,23 @@
 class maths extends simulation
 {
 	//* Statistics stuff*/
+	function getGenderRatio()
+	{
+		$sql = "SELECT 
+					sum(case when `gender` = 'm' then 1 else 0 end)/count(*) as male_ratio,
+				   	sum(case when `gender` = 'f' then 1 else 0 end)/count(*) as female_ratio
+				FROM 
+					citizens
+				WHERE
+					status > 0
+		";
+		$que = $this->db->prepare($sql);
+		try { 
+			$que->execute();
+			$row = $que->fetch(PDO::FETCH_ASSOC);
+			return 'M Ratio:'.$row['male_ratio'].'| F Ratio:'.$row['female_ratio'];
+		}catch(PDOException $e) { die($e->getMessage());}
+	}
 	function getStatCount($stat)
 	{
 		$sql = "SELECT count(*) as tot FROM citizens WHERE status = {$stat}";
@@ -183,9 +200,13 @@ class maths extends simulation
 	}
 	function intMath($h,$w)
 	{
+		//* There needs to be a genetic component to this too -- but that means the Genetics system must be flushed out.
 		$h = $this->getInteli($h);
 		$w = $this->getInteli($w);
-		return (($h+$w)/2);
+		$int = mt_rand(65,($h+$w));
+		$int = $int < 165 ? $int :  $int-mt_rand(0,$int);
+		$int = $int < 65 ? 65 : $int; 
+		return $int;
 		
 	}
 	/**************
@@ -211,12 +232,20 @@ class maths extends simulation
 		try { 
 			$que->execute(); 
 			$row = $que->fetch(PDO::FETCH_ASSOC);
+
+			if(!$row)
+			{
+				return '0';
+			}
+			else
+			{
 			$d1 = new DateTime($this->getTime());
 			$d2 = new DateTime($row['born_on']);
 			
 			$diff = $d2->diff($d1);
 			
 			return $diff->y;
+			}
 			} catch(PDOException $e) { echo $e->getMessage(); } 		
 	}
 }

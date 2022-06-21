@@ -9,102 +9,122 @@ class pregancy extends tribe
 			$que->execute();
 			while($row = $que->fetch(PDO::FETCH_ASSOC))
 			{
+				if(!$row)
+				{
+					// Do Nothing
+				}
+				else{
 				$this->healthyForPregancy($row['cid'], $row['spouse_id'],$row['pregnant_on'], $row['relstat']);
+				}
 			}
 			return true;
 		} catch(PDOException $e) { echo $e->getMessage();}
-		#echo "Run!";
+
 	}
 	function fertile($cid)
 	{
-	$sql=		"SELECT genetics.infert1 AS gert,
-				    virus.infert1 AS vert
-			FROM citizens
-			JOIN genetics ON citizens.cid = genetics.cid
-			LEFT JOIN virus ON virus.vid = citizens.infected
+	$sql=		
+		"SELECT 
+				genome
+			FROM 
+				genetics
 			WHERE 
-				citizens.cid = {$cid}
+				cid = {$cid}
 				";
 		$que = $this->db->prepare($sql);
-		try { 
-			$que->execute(); 
-			$row = $que->fetch(PDO::FETCH_ASSOC);
-			if(array_sum($row) > 0) { return false; } else { return true;} return $row['infert1'];}catch(PDOException $e) { echo $e->getMessage();}
-	}
-
-	function healthyForPregancy($mom, $dad, $pdate,$stat)
-	{
-							$mname = $this->prettyName($mom);
-					$dname = $this->prettyName($dad);
-		if($stat == 3)
-		{
-			if(mt_rand(0,100) == 2)
-			{
-				$this->kill($mom, 'childbirth');
-			}
-			elseif(mt_rand(0,99999999) == 9)
-			{
-				//* This Needs to be altered to allow for the mother to die but the newborn to live.
-			}
+		
+			try { 
+				$que->execute(); 
+				if($row = $que->fetch(PDO::FETCH_ASSOC))
+				{
+					$gen = $row['genome'];
+					$gen = substr($gen,26,3);
+					$age = $this->citizenAge($cid);
+					$stay = 1;
+					$fert = $age <= 25 ? $age/25 : $stay-($age*.009);
+					if($gen == 'CAT')
+					{
+						//echo $cid." is infertile! \n";
+						return 0;
+					}
+					if($age == 0)
+					{
+						return 0;
+					}
+					else
+					{
+						return 1;
+					}
+				}
 			else
 			{
-			if($this->pregMath($pdate) >= 9)
-			{
-				$this->statusChange($mom,2);
-				#echo "Pregancy Chance:".$mom_chance."/".$dad_chance."Mom: {$mom_age} Dad: {$dad_age}\n";
-				$int = $this->intMath($mom,$dad);
-				#echo $mom."|".$dad."\n";
-				$this->newCitizens($mom,$dad,$int);
+				return 0;
 			}
-			}
-		}
-		else{
-			$mom_age = $this->citizenAge($mom);
-		$dad_age = $this->citizenAge($dad);
-			$bothAge = $mom_age+$dad_age;
-			$dadFert = $this->fertile($dad);
-			$momFert = $this->fertile($mom);
-			if($dadFert && $momFert)
-			{
-				if(mt_rand(0,$bothAge) <= mt_rand(0,18))
-				{
-						
-					$this->statusChange($mom,3,1);
-					$this->message("[PREGNANT]{$mname} is expecting!",'happy','3');
-				}
-				else
-				{
-
-					$text = "[INTERPERSONAL]";
-					switch(mt_rand(1,10))
+		}catch(PDOException $e) { die($e->getMessage());}
+	}
+	function healthyForPregancy($mom, $dad, $pDate,$stat)
+	{
+		/* 
+			Rewriting this function because it was garbage
+		*/
+		$mname = $this->prettyName($mom); //* Prettfied Mom Name
+		if($stat == 3) {
+				$darray = array(
+					'childbirth'=>array('min'=>15,'max'=>35),
+					'stillborn'=>array('min'=>1,'max'=>45),
+				);
+				if($this->pregMath($pDate) >= 9){
+					$death = mt_rand(0,300);
+					switch($death)
 					{
-						case 1:
-							$text .= "{$mname}($mom) AND {$dname}($dad) had sex";
+						case ($death >= 15 && $death <= 35):
+							$this->kill($mom,'childbirth');
 							break;
-						case 2:
-							$text .= "{$dname}($dad) was in the mood but {$mname}({$mom}) had a headache";
-							break;
-						case 3:
-							$text .= "{$mname}($mom) AND {$dname}($dad) fell asleep watching Home Alone 2";
+						case ($death >= 36 && $death <= 99):
+							$this->message("[DEATH] {$mname}'s child was stillborn",'death',3);
+							$this->statusChange($mom,2);
 							break;
 						default:
-							$text .= "{$dname} AND {$mname} were up all night talking";
+							$this->statusChange($mom,2);
+							$int = $this->intMath($mom,$dad);
+							#echo $mom."|".$dad."\n";
+							$this->newCitizens($mom,$dad,$int);
 							break;
 					}
-					
-					$this->message($text,'green','3');
-					return false;
+						
 				}
-			}
-			else
+		}
+		else{
+		$dname = $this->prettyName($dad); //* Prettfied Dad Name
+			$mfert = $this->fertile($mom);
+			$dfert = $this->fertile($dad);
+			if($dfert && $mfert)
 			{
-				$mname = $this->prettyName($mom);
-				$dname = $this->prettyName($dad);
-				$this->message("{$mname} & {$dname} infertile!", 'red', '2');
+				$this->statusChange($mom,3,1);
+				$this->message("[LIFE]{$mname} is expecting!",'happy',3);
+			}
+			else {
+				$text = '[INTERPERSONAL]';
+				$array = array(
+					"{$mname}({$mom}) AND {$dname}({$dad}) had SEX!",
+					"{$dname}($dad) was in the mood but {$mname}({$mom}) had a headache",
+					"{$mname}($mom) AND {$dname}($dad) fell asleep watching Home Alone 2",
+					"{$mname}($mom) AND {$dname}($dad) did the nasty",
+					"{$dname}($dad) gave {$mname}($mom) a bit of the 'how's yer father'",
+					"{$dname} AND {$mname} were up all night talking",
+					"{$dname} had a great time! {$mname} not so much"
+				);
+				shuffle($array);
+				$text .= $array[0];
+				$this->message($text,'green',3);
+				return false;
 			}
 		}
 	}
-	function newCitizens($mid,$fid,$int)
+	function giveBirth($pDate,$mom)
+	{
+	}
+	function newCitizens($mid,$fid,$int, $reset = NULL)
 	{
 		$sql = "INSERT INTO 
 			citizens
@@ -135,14 +155,15 @@ class pregancy extends tribe
 				:int,
 				:tile
 			);";
-		$getParentGenetic = $this->getParentsGenetics($mid,$fid);
+		$ggp = $this->getParentsGenetics($mid,$fid);
+		$genetics = $this->geneticMixer($ggp, true);
 		$surname = $this->getName($fid);
 		$madienName = $this->getName($mid);
 		$surname = $this->surname_morpher($surname['last_name'], $madienName['last_name']);
 		$gender = array('m','f');
 		$gender = $gender[mt_rand(0,1)];
 		$name = $this->newName($gender);
-		$time = $this->getTime();
+		$time = is_null($reset) ? $this->getTime() : '0982-00-00 00:00:00';
 		$que = $this->db->prepare($sql);
 		$int = $int+mt_rand(-3,3);
 		$mtile = $this->getCitizenTile($mid);
@@ -156,11 +177,15 @@ class pregancy extends tribe
 		$que->bindPAram(':tile', $mtile);
 		try { 
 			$que->execute(); 
-			$this->insertNewGenetics($getParentGenetic);
+			$this->insertNewGenetics($genetics);
 			$nName = $this->prettyName($mid);
 			$dName = $this->prettyName($fid);
 			$this->statusChange($mid,2);
-			$text = "[LIFE]{$name} {$surname} was born on '{$time} to {$nName} & {$dName}!";
+			if(is_null($reset)){
+				$text = "[LIFE]{$name} {$surname} was born on '{$time} to {$nName} & {$dName}!";}
+			else{
+				$text = "[LIFE]{$name} {$surname} was created by the blessed creator on {$time}";
+			}
 			$this->message($text,$gender,2);
 			} catch(PDOException $e) { echo die('New Citizen Error: '.$e->getMessage()); } 
 	}

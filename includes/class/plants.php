@@ -88,7 +88,7 @@ class plants extends animals
 					map as m,
 					Atmosphere as a
 				SET
-					m.plants = (m.plants+(m.seeds/2)*(m.farm+1)*(m.temp*0.8)),
+					m.plants = (m.plants+(m.farm+1)),
 					m.seeds=seeds/2,
 					m.water = m.water-(m.plants*10),
 					a.CoTwo = a.CoTwo - (m.plants/40000000),

@@ -1,19 +1,10 @@
 <?php
 class simulation extends map
 {
-	function do_run2()
-	{
-		
-	}
 	function do_run()
 	{
 		#die("Something Went Wrong!!!!");
 		#$this->updateSupplies();
-		$this->Rain();
-		if($this->virusCount() == 0)
-		{
-			$this->createVirus();
-		}
 		if($this->updateTime())
 		{
 			
@@ -24,7 +15,7 @@ class simulation extends map
 				{
 					
 				
-					$this->run_the_guanlet();
+					$this->run_the_guanlet(); 
 				}
 				else
 				{
@@ -42,4 +33,4 @@ class simulation extends map
 		{die("Something Went Wrong! Update Time!");}
 	}
 	
-}
+}?>
