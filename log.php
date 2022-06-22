@@ -7,7 +7,7 @@ try {
 	$row = $que->fetch(PDO::FETCH_ASSOC);
 	$pop = $row['pop'];
 }catch(PDOException $e) { die($e->getMessage());  }
-$sql = "SELECT * FROM console ORDER BY cid DESC LIMIT 900";
+$sql = "SELECT * FROM console ORDER BY cid DESC LIMIT 500";
 $que = $db->prepare($sql);
 try { 
 	$que->execute();

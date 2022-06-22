@@ -1,6 +1,6 @@
 <?php
 define("ABS_PATH",realpath($_SERVER["DOCUMENT_ROOT"]));
-define('debug', 'on');
+define('debug', 'off');
 ini_set('error_reporting', E_ALL);
 error_reporting(E_ALL);
 define('LIVE','remote');
@@ -43,7 +43,7 @@ define("sleep_state", 'speedrun'); /* On/Off */
 define("sleep_type", 'off'); /* u uses usleep | s uses sleep default at s */
 define("sleep_var", 0);
 define("msg_delay", 0);
-define("TIME_CHOICE", 31);
+define("TIME_CHOICE", 40);
 /* Simulation Constants */
 #define("TIME_STEP", '+13563 minutes');
 define("weight_units", "g");

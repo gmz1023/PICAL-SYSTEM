@@ -9,6 +9,22 @@ html,body {
 }
 body {
 }
+#map {
+	  display: flex;
+	  flex-wrap: wrap;
+	background-color: #1E9E98;
+	.tile {
+		border: 1px solid black;
+		display: inline-block;
+		flex-grow: 2;
+		height: 100px;
+		width: calc(100% * (1/6) - 10px - 1px);
+		&.land {
+			background-color:#098414;
+		}
+	}
+}
+
 #console {
 	background-color: 333;
 	float: right;
@@ -52,6 +68,11 @@ body {
 		line-height: 4vh;
 		font-weight: bold;
 		height: 4vh;
+	}
+}
+.regmenu {
+	a {
+		padding: 15px;
 	}
 }
 #registry

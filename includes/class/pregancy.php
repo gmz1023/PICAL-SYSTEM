@@ -112,7 +112,8 @@ class pregancy extends tribe
 					"{$mname}($mom) AND {$dname}($dad) did the nasty",
 					"{$dname}($dad) gave {$mname}($mom) a bit of the 'how's yer father'",
 					"{$dname} AND {$mname} were up all night talking",
-					"{$dname} had a great time! {$mname} not so much"
+					"{$dname} had a great time! {$mname} not so much",
+					"{$dname} AND {$mname} were caught Shtupping"
 				);
 				shuffle($array);
 				$text .= $array[0];
@@ -126,68 +127,79 @@ class pregancy extends tribe
 	}
 	function newCitizens($mid,$fid,$int, $reset = NULL)
 	{
-		$sql = "INSERT INTO 
-			citizens
-			(
-				first_name, 
-				last_name, 
-				gender, 
-				born_on, 
-				died_on, 
-				mother_id, 
-				father_id, 
-				relstat, 
-				spouse_id,
-				inti,
-				tile_id
-				) 
-			VALUES 
-			(
-				:name,
-				:surname, 
-				:gender, 
-				:time, 
-				NULL, 
-				:mid, 
-				:fid, 
-				'1', 
-				'0',
-				:int,
-				:tile
-			);";
 		$ggp = $this->getParentsGenetics($mid,$fid);
-		$genetics = $this->geneticMixer($ggp, true);
-		$surname = $this->getName($fid);
-		$madienName = $this->getName($mid);
-		$surname = $this->surname_morpher($surname['last_name'], $madienName['last_name']);
-		$gender = array('m','f');
-		$gender = $gender[mt_rand(0,1)];
-		$name = $this->newName($gender);
-		$time = is_null($reset) ? $this->getTime() : '0982-00-00 00:00:00';
-		$que = $this->db->prepare($sql);
-		$int = $int+mt_rand(-3,3);
-		$mtile = $this->getCitizenTile($mid);
-		$que->bindParam(':name', $name);
-		$que->bindParam(':surname', $surname);
-		$que->bindParam(':gender', $gender);
-		$que->bindParam(':time', $time);
-		$que->bindParam(':mid', $mid);
-		$que->bindParam(':fid', $fid);
-		$que->bindParam(':int', $int);
-		$que->bindPAram(':tile', $mtile);
-		try { 
-			$que->execute(); 
-			$this->insertNewGenetics($genetics);
-			$nName = $this->prettyName($mid);
-			$dName = $this->prettyName($fid);
+		if(empty($ggp))
+		{
+			$mname = $this->prettyName($mid); //* Prettfied Mom Name
 			$this->statusChange($mid,2);
-			if(is_null($reset)){
-				$text = "[LIFE]{$name} {$surname} was born on '{$time} to {$nName} & {$dName}!";}
-			else{
-				$text = "[LIFE]{$name} {$surname} was created by the blessed creator on {$time}";
-			}
-			$this->message($text,$gender,2);
-			} catch(PDOException $e) { echo die('New Citizen Error: '.$e->getMessage()); } 
+			$this->message("[DEATH] {$mname}'s child was stillborn",'death',3);
+		}
+		else
+		{
+			$sql = "INSERT INTO 
+				citizens
+				(
+					first_name, 
+					last_name, 
+					gender, 
+					born_on, 
+					died_on, 
+					mother_id, 
+					father_id, 
+					relstat, 
+					spouse_id,
+					inti,
+					tile_id
+					) 
+				VALUES 
+				(
+					:name,
+					:surname, 
+					:gender, 
+					:time, 
+					NULL, 
+					:mid, 
+					:fid, 
+					'1', 
+					'0',
+					:int,
+					:tile
+				);";
+
+
+			$genetics = $this->geneticMixer($ggp, true);
+			$surname = $this->getName($fid);
+			$madienName = $this->getName($mid);
+			$surname = $this->surname_morpher($surname['last_name'], $madienName['last_name']);
+			$gender = array('m','f');
+			$gender = $gender[mt_rand(0,1)];
+			$name = $this->newName($gender);
+			$time = is_null($reset) ? $this->getTime() : '0982-00-00 00:00:00';
+			$que = $this->db->prepare($sql);
+			$int = $int+mt_rand(-3,3);
+			$mtile = $this->getCitizenTile($mid);
+			$que->bindParam(':name', $name);
+			$que->bindParam(':surname', $surname);
+			$que->bindParam(':gender', $gender);
+			$que->bindParam(':time', $time);
+			$que->bindParam(':mid', $mid);
+			$que->bindParam(':fid', $fid);
+			$que->bindParam(':int', $int);
+			$que->bindPAram(':tile', $mtile);
+			try { 
+				$que->execute(); 
+				$this->insertNewGenetics($genetics);
+				$nName = $this->prettyName($mid);
+				$dName = $this->prettyName($fid);
+				$this->statusChange($mid,2);
+				if(is_null($reset)){
+					$text = "[LIFE]{$name} {$surname} was born on '{$time} to {$nName} & {$dName}!";}
+				else{
+					$text = "[LIFE]{$name} {$surname} was created by the blessed creator on {$time}";
+				}
+				$this->message($text,$gender,2);
+				} catch(PDOException $e) { echo die('New Citizen Error: '.$e->getMessage()); } 
+		}
 	}
 
 }

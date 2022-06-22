@@ -4,7 +4,7 @@ Error: File to import not found or unreadable: compass/reset.
          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/bourbon
          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/neat
          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/base
-        on line 6 of F:\xampp\htdocs\LURCH\style\sass\screen.scss
+        on line 6 of F:\XAMPP\htdocs\LURCH2\PICAL-SYSTEM\style\sass\screen.scss
 
 1: /* Welcome to Compass.
 2:  * In this file you should write your main styles. (or centralize your imports)
@@ -19,7 +19,7 @@ Error: File to import not found or unreadable: compass/reset.
 11: }
 
 Backtrace:
-F:\xampp\htdocs\LURCH\style\sass\screen.scss:6
+F:\XAMPP\htdocs\LURCH2\PICAL-SYSTEM\style\sass\screen.scss:6
 D:/Program Files (x86)/Adobe Dreamweaver 2021/ruby/lib/ruby/gems/2.7.0/gems/sass-3.7.4/lib/sass/tree/import_node.rb:67:in `rescue in import'
 D:/Program Files (x86)/Adobe Dreamweaver 2021/ruby/lib/ruby/gems/2.7.0/gems/sass-3.7.4/lib/sass/tree/import_node.rb:44:in `import'
 D:/Program Files (x86)/Adobe Dreamweaver 2021/ruby/lib/ruby/gems/2.7.0/gems/sass-3.7.4/lib/sass/tree/import_node.rb:28:in `imported_file'
@@ -56,4 +56,4 @@ D:/Program Files (x86)/Adobe Dreamweaver 2021/ruby/bin/sass:23:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: compass/reset.\A        Load paths:\A          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/bourbon\A          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/neat\A          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/base\A         on line 6 of F:\xampp\htdocs\LURCH\style\sass\screen.scss\A \A 1: /* Welcome to Compass.\A 2:  * In this file you should write your main styles. (or centralize your imports)\A 3:  * Import this file using the following HTML or equivalent:\A 4:  * <link href=\"/stylesheets/screen.css\" media=\"screen, projection\" rel=\"stylesheet\" type=\"text/css\" /> */\A 5: \A 6: @import \"compass/reset\";\A 7: html,body {\A 8: 	background-color: #313131;\A 9: }\A 10: body {\A 11: }"; }
+  content: "Error: File to import not found or unreadable: compass/reset.\A        Load paths:\A          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/bourbon\A          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/neat\A          D:/Program Files/Adobe Dreamweaver 2021/Configuration/SassFrameworks/base\A         on line 6 of F:\XAMPP\htdocs\LURCH2\PICAL-SYSTEM\style\sass\screen.scss\A \A 1: /* Welcome to Compass.\A 2:  * In this file you should write your main styles. (or centralize your imports)\A 3:  * Import this file using the following HTML or equivalent:\A 4:  * <link href=\"/stylesheets/screen.css\" media=\"screen, projection\" rel=\"stylesheet\" type=\"text/css\" /> */\A 5: \A 6: @import \"compass/reset\";\A 7: html,body {\A 8: 	background-color: #313131;\A 9: }\A 10: body {\A 11: }"; }

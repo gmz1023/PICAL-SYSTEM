@@ -1,4 +1,5 @@
-<?php
+ <?php
+	require_once('includes/db.php');
 $sql = "SELECT first_name, last_name, status,cid FROM citizens WHERE status > 0";
 $que = $db->prepare($sql);
 

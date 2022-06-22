@@ -11,19 +11,17 @@ class genes extends virus
 		}
 		else
 		{
-		$sql = "SELECT genome, dead_dna FROM genetics WHERE (genome.cid = {$m} OR  genome.cid = {$d}) OR (dead_dna.cid = {$m}) OR dead_dna.cid = {$d})";
+		$sql = "SELECT genetics.genome as ag, dead_dna.genome as dg FROM genetics, dead_dna WHERE (genetics.cid = {$m} OR  genetics.cid = {$d}) OR (dead_dna.cid = {$m} OR dead_dna.cid = {$d})";
 		$que = $this->db->prepare($sql);
 		try { 
 			$array = [];
 			$que->execute();
 			while($row = $que->fetch(PDO::FETCH_ASSOC))
 			{
-				$array[] = $row['genome']; 
+				$array[] =  $row['ag'] ? $row['ag'] : $row['dg']; 	
 			}
-		
 		}
 			catch(PDOEXception $e) { die($e->getMessage());}
-
 		}
 		return $array;
 	}

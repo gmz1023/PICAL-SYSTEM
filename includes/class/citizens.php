@@ -98,7 +98,7 @@ class citizens extends family
 			else
 			{
 			$sql = "SELECT 
-						(SELECT last_name FROM citizens WHERE cid = {$cid}) as afn,
+						(SELECT first_name FROM citizens WHERE cid = {$cid}) as afn,
 						(SELECT last_name FROM citizens WHERE cid = {$cid}) as aln,
 						(SELECT first_name FROM gravestones WHERE cid = {$cid}) as dfn,
 						(SELECT last_name FROM gravestones WHERE cid = {$cid}) as dln
@@ -132,10 +132,8 @@ class citizens extends family
 	function prettyName($cid)
 	{
 		$name = $this->getName($cid);
-		
 		$name = $name['first_name'].' '.$name['last_name'];
 		return $name;
-		echo $name."\n";
 	}
 	function newName($gender)
 	{
@@ -190,6 +188,7 @@ class citizens extends family
 				$name = $fn;
 				break;
 		}
+		$name = ucfirst($name);
 		return $name;
 		
 	}

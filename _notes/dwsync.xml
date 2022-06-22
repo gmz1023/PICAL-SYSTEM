@@ -42,5 +42,10 @@
 <file name="yob2015.txt" server="192.168.1.7/PICAL/" local="132059789959367261" remote="132060795190000000" Dst="2" />
 <file name="plants.php" server="192.168.1.7/PICAL/" local="132060385676875555" remote="132062275730000000" Dst="2" />
 <file name="SQL.sql" server="192.168.1.7/PICAL/" local="132062222562570201" remote="132062275780000000" Dst="2" />
-<file name="constants.php" server="192.168.1.7/PICAL/" local="132062457669369974" remote="132062457680000000" Dst="2" />
+<file name="test.php" server="66.45.250.174" local="133002512920000000" remote="133002512400000000" Dst="2" />
+<file name="jquery-3.6.0.min.js" server="66.45.250.174" local="132956611380000000" remote="133003179000000000" Dst="2" />
+<file name="jquery-ui.min.js" server="66.45.250.174" local="132956612140000000" remote="133003179000000000" Dst="2" />
+<file name="log.php" server="66.45.250.174" local="133003360920000000" remote="133003360800000000" Dst="2" />
+<file name="index.php" server="66.45.250.174" local="133003179080000000" remote="133003179000000000" Dst="2" />
+<file name="reset.php" server="66.45.250.174" local="133003356100000000" remote="133003356000000000" Dst="2" />
 </dwsync>

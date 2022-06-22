@@ -58,5 +58,37 @@ class family extends pregancy
 	}
 	function marryCitizens()
 	{
+		$men = $this->genderedSingles('m');
+		$wom = $this->genderedSingles('f');
+		$mec =count($men)-1;
+		$woc = count($wom)-1;
+		foreach($wom as $x=>$v)
+		{
+			if($mec >= 0 && $woc >= 0)
+			{
+				$cit1 = $men[mt_rand(0,$mec)];
+				$cit2 = $wom[mt_rand(0,$woc)];
+				$name1 = $this->getname($cit1);
+				$name2 = $this->getname($cit2);
+				if($cit1 <> $cit2)
+				{
+					$po1 = $this->getCitizenTile($cit1);
+					$po2 = $this->getCitizenTile($cit2);
+					if($po1 == $po2)
+					{
+						$cit1age = $this->citizenAge($cit1);
+						$cit2age = $this->citizenAge($cit2);
+						if(($cit1age >= 18) || ($cit2age >= 18))
+						   {
+								$this->updateSpouse($cit1, $cit2);
+								$this->updateSpouse($cit2,$cit1);
+							 	$text = "[Marriage]{$name1['first_name']} {$name1['last_name']} AND {$name2['first_name']} {$name2['last_name']} married on {$this->getTime()}!";
+								$this->message($text,'happy',2);  
+						   }
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

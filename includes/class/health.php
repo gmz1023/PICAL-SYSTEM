@@ -88,7 +88,6 @@ class health extends biofunctions
 	function getHealth($cid)
 	{
 		$sql = "SELECT health FROM citizens WHERE cid = {$cid} AND status = 1;";
-		echo "this is the fault";
 		$que = $this->db->prepare($sql);
 		//echo $sql."\n";
 		try { 

@@ -1,7 +1,7 @@
 <?php
 require('includes/db.php');
 $cit = new base($db,0);
-$base_citizens = 16;
+$base_citizens = mt_rand(4,120);
 $sql = "TRUNCATE citizens; TRUNCATE genetics;";
 $sql2 = "TRUNCATE dead_dna; TRUNCATE gravestones;";
 $sql3 = "TRUNCATE virus";

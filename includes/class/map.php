@@ -56,7 +56,7 @@ class map extends citizens
 	}
 	function getMapMax()
 	{
-		return array('max_lim'=>4,'min_lim'=>1);
+		return array('max_lim'=>6,'min_lim'=>1);
 		
 	}
 	function distanceCheck($tid, $cid)
