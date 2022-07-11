@@ -150,7 +150,7 @@ class maths extends simulation
 	function totalPopulation()
 	{
 		/* Used for Info and basic functions */
-		$sql = "SELECT count(cid) as pop FROM citizens WHERE status = 1";
+		$sql = "SELECT count(cid) as pop FROM citizens WHERE status > 0";
 		$que = $this->db->prepare($sql);
 		try { 
 		$que->execute(); 
@@ -224,28 +224,33 @@ class maths extends simulation
 	/**************
 		CITIZEN AGE FUNCTION 
 	*****************/
+	
 	function citizenAge($cid)
 	{
-		$sql = "SELECT born_on FROM citizens WHERE cid = :cid";
+		$cid = is_numeric($cid) ? $cid : null;
+			$sql = "SELECT 
+						(SELECT born_on FROM citizens WHERE cid = {$cid}) as alive,
+						(SELECT born_on FROM gravestones WHERE cid = {$cid}) as dead,
+						(SELECT died_on FROM gravestones WHERE cid = {$cid}) as tell";
 		$que = $this->db->prepare($sql);
-		$que->bindParam(':cid', $cid);
 		try { 
 			$que->execute(); 
 			$row = $que->fetch(PDO::FETCH_ASSOC);
-
-			if(!$row)
+			if(empty($row['dead']))
 			{
-				return '0';
+				$time = $this->getTime();
+				$bo = $row['alive'];
 			}
 			else
 			{
-			$d1 = new DateTime($this->getTime());
-			$d2 = new DateTime($row['born_on']);
-			
-			$diff = $d2->diff($d1);
-			
-			return $diff->y;
+				$time = $row['tell'];
+				$bo = $row['dead'];
 			}
-			} catch(PDOException $e) { echo $e->getMessage(); } 		
+				$d1 = new DateTime($time);
+				$d2 = new DateTime($bo);
+				$diff = $d2->diff($d1);
+			
+				return $diff->y;
+			} catch(PDOException $e) { die($e->getMessage()); } 		
 	}
 }

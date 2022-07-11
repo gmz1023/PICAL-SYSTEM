@@ -6,6 +6,18 @@ class movement extends bacteria
 		Rewritten on 13/6/22
 	
 	*/
+	function MoveMath($sid)
+	{
+		
+		$u = ($sid-18) > 1 ? ($sid-18) : 360;
+		$d = ($sid+18) < 360 ? ($sid+18) : 1;
+		$l = ($sid+1) < 360 ? ($sid+1) : 360;
+		$r = ($sid-1) > 1 ? ($sid-1) : 1;
+		$ar = array($sid,$u,$d,$l,$r);
+		shuffle($ar);
+		return $ar[0];
+		
+	}
 	function playerMove($cid)
 	{
 		
@@ -13,20 +25,21 @@ class movement extends bacteria
 
 		$sid = $this->getCitizenTile($cid); // Probably can change this at some point too
 		//Get Tile Information
-		$data = $this->getTileStats($sid,'water,temp,max_pop,(wildlife+plants) as food');
+		$data = $this->getTileStats($sid,'water,temp,max_pop,(wildlife+plants) as food'); // Probably not a safe system, should update it at some point
 		$food = $data['food'];
 		$water = $data['water'];
 		$max_pop = $data['max_pop'];
 		$pop = $this->getTilePop($sid);
+		$age = $this->citizenAge($cid);
 		if($food < food_consumption || $water < water_consumption)
 		{
 			$r = 'resources';
-			$move = mt_rand($limits['min_lim'],$limits['max_lim']);
+			$move = $this->MoveMath($sid);
 		}
 		elseif($max_pop <= $pop)
 		{
 			$r = 'over population';
-			$move = mt_rand($limits['min_lim'],$limits['max_lim']);
+			$move = $this->MoveMath($sid);;
 		}
 		else
 		{
@@ -41,7 +54,18 @@ class movement extends bacteria
 		}
 		else
 		{
-		$this->updatePos($cid,$move,$move,$r);
+			$new_tile_stats = $this->getTileStats($move,'type');
+			$type = $new_tile_stats['type'];
+			if($type == '2')
+			{
+				// Water Tile Cannot Move Too
+				$move = $sid;
+			}
+			else
+			{
+				// Do Nothing
+			}
+			$this->updatePos($cid,$move,$move,$r);
 		}
 		$this->satisify_needs($cid,$sid);
 	}

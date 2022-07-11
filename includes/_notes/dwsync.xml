@@ -10,13 +10,15 @@
 <file name="functions.php" server="192.168.1.4/TEMPLAR/" local="131800013240000000" remote="131800584240000000" Dst="2" />
 <file name="db.php" server="192.168.1.7/PICAL/" local="132059789959127897" remote="132060795170000000" Dst="2" />
 <file name="functions.php" server="192.168.1.7/PICAL/" local="132059789959137875" remote="132060795170000000" Dst="2" />
-<file name="db.php" server="aslo.tech/notmycandle.com/" local="132999777580000000" remote="133000042800000000" Dst="2" />
-<file name="functions.php" server="aslo.tech/notmycandle.com/" local="132999777620000000" remote="133000042800000000" Dst="2" />
+<file name="db.php" server="aslo.tech/notmycandle.com/" local="132999777580000000" remote="133019562000000000" Dst="2" />
+<file name="functions.php" server="aslo.tech/notmycandle.com/" local="133010978220000000" remote="133019562000000000" Dst="2" />
 <file name="functions.php" server="66.45.250.174" local="132999777620000000" remote="133000470600000000" Dst="2" />
 <file name="db.php" server="66.45.250.174" local="132999777580000000" remote="133000471800000000" Dst="2" />
 <file name="functions.php" server="66.45.250.174/test/" local="132999777620000000" remote="132999777600000000" Dst="2" />
 <file name="db.php" server="66.45.250.174/test/" local="132999777060000000" remote="132999777000000000" Dst="2" />
 <file name="constants.php" server="66.45.250.174/test/" local="132999775940000000" remote="132999777000000000" Dst="2" />
-<file name="constants.php" server="66.45.250.174" local="133003362120000000" remote="133003362000000000" Dst="2" />
-<file name="constants.php" server="aslo.tech/notmycandle.com/" local="133000586060000000" remote="133000478400000000" Dst="2" />
+<file name="constants.php" server="66.45.250.174" local="133007374420000000" remote="133007374200000000" Dst="2" />
+<file name="constants.php" server="aslo.tech/notmycandle.com/" local="133019667900000000" remote="133019562000000000" Dst="2" />
+<file name="gamecon.php" server="66.45.250.174" local="133007387020000000" remote="133007386800000000" Dst="2" />
+<file name="gamecon.php" server="aslo.tech/notmycandle.com/" local="133015264220000000" remote="133019562000000000" Dst="2" />
 </dwsync>

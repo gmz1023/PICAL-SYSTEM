@@ -32,7 +32,7 @@ class pregancy extends tribe
 				cid = {$cid}
 				";
 		$que = $this->db->prepare($sql);
-		
+
 			try { 
 				$que->execute(); 
 				if($row = $que->fetch(PDO::FETCH_ASSOC))
@@ -68,13 +68,15 @@ class pregancy extends tribe
 			Rewriting this function because it was garbage
 		*/
 		$mname = $this->prettyName($mom); //* Prettfied Mom Name
+				mt_srand($this->make_seed());
 		if($stat == 3) {
 				$darray = array(
 					'childbirth'=>array('min'=>15,'max'=>35),
 					'stillborn'=>array('min'=>1,'max'=>45),
 				);
-				if($this->pregMath($pDate) >= 9){
-					$death = mt_rand(0,300);
+				$math = $this->pregMath($pDate);
+				if($math >= 9){
+					$death = mt_rand(0,900);
 					switch($death)
 					{
 						case ($death >= 15 && $death <= 35):
@@ -84,6 +86,10 @@ class pregancy extends tribe
 							$this->message("[DEATH] {$mname}'s child was stillborn",'death',3);
 							$this->statusChange($mom,2);
 							break;
+						case ($death >= 100 && $death <= 133):
+							$this->message("[HUMAN RIGHTS] {$mname} decided to not keep the child",'rights',3);
+							$this->statusChange($mom,2);
+						break;
 						default:
 							$this->statusChange($mom,2);
 							$int = $this->intMath($mom,$dad);
@@ -113,7 +119,11 @@ class pregancy extends tribe
 					"{$dname}($dad) gave {$mname}($mom) a bit of the 'how's yer father'",
 					"{$dname} AND {$mname} were up all night talking",
 					"{$dname} had a great time! {$mname} not so much",
-					"{$dname} AND {$mname} were caught Shtupping"
+					"{$dname} AND {$mname} were caught Shtupping",
+					"{$dname} AND {$mname} were fucking",
+					"{$dname} AND {$mname} did the horizontal tango",
+					"{$dname} AND {$mname} did the horizontal mambo",
+					"{$dname} AND {$mname} made the beast with two backs"
 				);
 				shuffle($array);
 				$text .= $array[0];
@@ -197,7 +207,7 @@ class pregancy extends tribe
 				else{
 					$text = "[LIFE]{$name} {$surname} was created by the blessed creator on {$time}";
 				}
-				$this->message($text,$gender,2);
+				$this->message($text,'green',2);
 				} catch(PDOException $e) { echo die('New Citizen Error: '.$e->getMessage()); } 
 		}
 	}

@@ -4,36 +4,198 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+@import "mixin.scss";
 html,body {
 	background-color: #313131;
 }
 body {
+	font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", "serif";
 }
 #map {
-	  display: flex;
-	  flex-wrap: wrap;
+	@include center-x;
+	display: flex;
+	flex-wrap: wrap;
 	background-color: #1E9E98;
+	width: 85vw;
+	height: 55vh;
+	margin-top: 4vh;
 	.tile {
-		border: 1px solid black;
-		display: inline-block;
-		flex-grow: 2;
-		height: 100px;
-		width: calc(100% * (1/6) - 10px - 1px);
-		&.land {
-			background-color:#098414;
+		color: #fff;
+		font-weight: bold;
+		text-align: center;
+			border: 1px solid black;
+			display: inline-block;
+			flex-grow: 2;
+			line-height: 4vh;
+			height: 4vh;
+			width: calc(100% * (1/17) - 10px - 1px);
+			&.land {
+				background-color:#098414;
+			}
+			&.water {
+				background-color: #1E9E98;
+			}
+		&.occupied a{
+			color: #000 !important;
+			text-decoration: none;
+			&:visited { 
+				color: #fff !important;
+					
+			}
 		}
 	}
 }
+#container {
+	margin: 0 auto;
+	width: 90vw;
+	.header {
+		display: flex;
+		flex-wrap: wrap;
+		border-bottom: 1px dashed black;
+		background-color: #fff;
+		.logo {
+			padding: 2em;
+			img {
+				vertical-align: middle;
+			}
+			font-size: 1.25rem;
+		}
+	menu {
+		display: flex;
+		width: 100%;
+		border-top: 1px solid black;
+		text-align: right;
+		.lfmn
+		{
+			flex-grow: 1;
+			text-align: left;
+			display: inline-flex;
+			width: 50%;
+		}
+		.rgmn {
+			flex-grow: 1;
 
+			text-align: right;
+			display:inline-flex;
+			width: 50%;
+		}
+		a {
+			text-decoration: none;
+			text-align: center;
+			color: #141290;
+			font-weight: bold;
+			padding: 1em;
+			display: inline-block;
+			width: 50%;
+			&:hover{
+				font-style: italic;
+			}
+		}
+	}
+	}
+		.stats {
+			text-align: right;
+			padding: 2em;
+
+	}
+	.reg {
+		display: flex;
+		flex-wrap: wrap;
+		background-color: #f1f1f1;
+		width: 100%;
+		.top {
+			padding: 2em; 
+			background-color: #333;
+			width: 100%;
+			text-transform: uppercase full-width;
+			color: #fff;
+			font-size: 1.25rem;
+			text-align: center;
+			
+		}
+		.fb-row {
+			width: 100%;
+			border-bottom: 1px dashed grey;
+			.label, .fb-cell {
+				box-sizing: border-box;
+				display: inline-flex;
+				padding: 1em;
+				width: 20%;
+			}
+			.label {
+				background-color: #222;
+				color: #fff;
+			}
+		}
+	
+	}
+}
+#nav {
+	background-color: #f1f1f1;
+	text-align: center;
+	padding: 1em;
+}
+#history {
+
+	  display: flex;
+	  flex-wrap: wrap;
+	  justify-content: space-between;
+	background-color: #f1f1f1;
+	.profile-pic {
+		text-align: center;
+		img {
+			margin: 0 auto;
+			max-height: 250px;
+			max-width: 250px;
+		}
+		h2 {
+			font-size: 1.3rem;
+		}
+	}
+	section {
+		&.action-bar
+		{
+			padding: 1em;
+			flex-basis: 100%;
+			h2 
+			{
+				font-size: 1.5rem;
+			}
+		}
+		background-color:#fff;
+		margin: 15px;
+		text-align: center;
+		flex-grow: 1;
+		border: 1px solid black;
+		flex-basis: auto;
+		h1 {
+			font-weight:bold;
+			padding: 1em 1.25em 0 1em;
+			font-size: 2rem;
+		}
+		dl{
+			text-align: left;
+			dt {
+				font-weight: bold;
+				font-size: 1.5rem;
+			}
+			dd {
+				padding: 1rem;
+				font-size: 1.25rem;
+			}
+			padding: 2rem;
+		}
+	}
+}
 #console {
-	background-color: 333;
+	background-color: #f1f1f1;
 	float: right;
-	width: 78vw;
+	width: 70vw;
 	height: 100vh;
 	overflow:scroll;
+
 	.log_con {
-		position: relative;
-		top: 4vh;
+		position: relative; 	
 	div {
 		border-bottom: 1px solid black;
 		padding: 1em;
@@ -42,37 +204,43 @@ body {
 	}
 	font-weight: bold;
 		display: block;
+		.info {
+			padding: 1.5em;
+			background-color: #fff;
+			color: #000;
+			border: 1px solid black;
+		}
 		.red {
 			background-color: #660A0C;
 			color: #fff;
 		}
-		.dead {
+		.death,.dead {
 			background-color: #151414;
 			border: 1px dashed red;
 		}
 		.green, .happy {
 			background-color: #138E1D;
 		}
-		
+		.rights {
+			background-color:#050078;
+			color: gold;
+			font-weight:bold;
+			letter-spacing: 3px;
+		}
 	.blue {
 		background-color: #11369C;
 		color: #fff;
 	}
 	}
-	.stats {
-		background-color: #f1f1f1;
-		color: #000;
-		width: 100%;
-		position: static;
-		top: 0;
-		line-height: 4vh;
-		font-weight: bold;
-		height: 4vh;
-	}
+
 }
 .regmenu {
+	background-color:#f1f1f1;
 	a {
-		padding: 15px;
+			display:inline-block;
+			padding: 15px;
+		text-align: center;
+
 	}
 }
 #registry

@@ -3,9 +3,10 @@ class map extends citizens
 {
 	function improvements($sid)
 	{
+		//$array = array('well'=>1,'farm'=>2,'ranch'=>3);
 		$array = array('well','farm','ranch');
 		$choice = $array[mt_rand(0,2)];
-		$sql = "UPDATE map SET ".$choice." = ".($choice)."+1 WHERE sid = {$sid} AND ".$choice."+1 < 10 AND (SELECT avg(inti) FROM citizens WHERE tile_id = {$sid}) > 100;";
+		$sql = "UPDATE map SET ".$choice." = ".($choice)."+1 WHERE sid = {$sid} AND ".$choice."+1 < 2 AND (SELECT avg(inti) FROM citizens WHERE tile_id = {$sid}) > 100;";
 		try { $this->db->exec($sql);}catch(PDOException $e) { die($e->getMessage());}
 	}
 	function getTileStats($tid,$d)
@@ -56,7 +57,12 @@ class map extends citizens
 	}
 	function getMapMax()
 	{
-		return array('max_lim'=>6,'min_lim'=>1);
+		/* 
+			These numbers are static right now, will be updated to be dynamic once other systems are implemented
+			They are used primarily to move the candles around the map.
+		
+		*/
+		return array('max_lim'=>360,'min_lim'=>1);
 		
 	}
 	function distanceCheck($tid, $cid)

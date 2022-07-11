@@ -29,7 +29,7 @@ class genes extends virus
 	{
 		$genome = '';
 		$array = array('A','C','G','T');
-		for($i = 0; $i < 100; $i++)
+		for($i = 0; $i < GENE_MAX; $i++)
 		{
 			shuffle($array);
 			$genome .= $array[0];

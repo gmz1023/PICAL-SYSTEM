@@ -91,20 +91,23 @@ Updating Water Tables; Moved "UpdateTileWater" from Map to Here because it makes
 	}
 	function Rain()
 	{
+		$water = mt_rand(100,700);
 		$sql = "UPDATE map SET water = 0 WHERE water < 0;";
 		$sql .= "UPDATE 
-					map 
+					map, 
+					enviroment
 				SET 
-					water = water+(water*(2.50*well)) 
+					map.water = map.water+({$water}*(2.50*map.well)),
+					enviroment.water = enviroment.water-({$water}*(2.50*map.well))
 				WHERE
-					water < (max_pop*".water_consumption."); ";
+					map.water < (max_pop*".water_consumption."); ";
 		$sql .= "
 				UPDATE
 					map
 				SET
-					wildlife = ((wildlife+((ranch+1)*1.25))+((ranch+wildlife)*(SELECT count(cid)+1 FROM citizens WHERE tile_id = sid)*0.33))
+					wildlife = ((wildlife+((ranch+1)*1.25))+((ranch+wildlife)*(SELECT count(cid)+1 FROM citizens WHERE tile_id = sid)*2.33))
 				WHERE
-					water-((wildlife+((ranch+1)*1.25))+((ranch+wildlife)*(SELECT count(cid)+1 FROM citizens WHERE tile_id = sid)*0.33)) > 0
+					water-((wildlife+(ranch+1)*1.25))+((ranch+wildlife)*(SELECT count(cid)+1 FROM citizens WHERE tile_id = sid)*2.33) > 0
 					and
 					((wildlife+((ranch+1)*1.25))+((ranch+wildlife)*(SELECT count(cid)+1 FROM citizens WHERE tile_id = sid)*0.33)) < (max_pop*".food_consumption.")
 					;";

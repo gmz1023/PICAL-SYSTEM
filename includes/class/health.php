@@ -63,26 +63,7 @@ class health extends biofunctions
 	}
 	function healthRestore($cid,$v)
 	{
-		$sql = "UPDATE 
-					citizens
-				SET
-					health = 
-						CASE
-							WHEN
-								health+{$v} <= 100 
-							THEN 
-								health+{$v}
-							ELSE
-								100
-							END
-					WHERE
-						cid = {$cid}";
-		#print_r($sql);
-		try {
-			$this->db->beginTransaction();
-			$this->db->exec($sql);
-			$this->db->commit();
-		}catch(PDOException $e) { $this->db->rollback(); die($e->getMessage());}
+		return true;
 		
 	}
 	function getHealth($cid)

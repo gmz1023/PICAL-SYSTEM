@@ -31,6 +31,7 @@ class food extends genes
 	{
 		$seq = $this->getParentsGenetics($cid,0)[0];
 		$seq = substr($seq,50,2);
+		$g = $this->getGender($cid) == "M" ? 1.11 : 1;
 		switch($seq)
 		{
 			case 'AC':
@@ -61,6 +62,7 @@ class food extends genes
 	}
 	function satisify_needs($cid,$tid){
 		$con = $this->caloricIntake($cid);
+		$age = $this->citizenAge($cid);
 		$sql = "UPDATE 
 					citizens as c,
 					map as m
@@ -129,7 +131,22 @@ class food extends genes
 			if($this->db->exec($sql1[0]))
 			{
 				// Eat Animals
-				$this->healthRestore($cid,8);
+				$dr = (int)(1000*TIME_CHOICE);
+				$g = $this->getGender($cid);
+				$extra = $g == 'm' ? mt_rand(20,25) : 0;
+				if(mt_rand(0,$dr) <= 15)
+				{
+					$dmg = 40 + $extra;
+					$age = $this->citizenAge($cid);
+					if($age >= 14)
+					{
+					$this->healthHit($cid, $dmg, 'Hunting Accident');
+					}
+				}
+				else
+				{
+					$this->healthRestore($cid,8);
+				}
 			}
 			else
 			{

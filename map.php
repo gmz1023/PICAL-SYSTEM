@@ -27,15 +27,22 @@ try {
 		{
 			case '2':
 				$type = 'water';
+				$cit = '';
 				break;
 			case '1':
 				$type = 'land';
+				$cit = citizens($row['sid'],$db);
 				break;
 			default: 
 				$type = 'land';
+				$cit = citizens($row['sid'],$db);
 		}
-		$cit = citizens($row['sid'],$db);
-		$html .= "<div class='tile {$type}'>{$row['temp']}|{$row['sid']} | {$cit}</div>";
+		if($cit > 0)
+		{
+			$type .= " occupied";
+		}
+		
+		$html .= "<div class='tile {$type}'><a href=''>{$cit}</a></div>";
 		
 	}
 }catch(PDOException $e) { die($e->getMessage());}
@@ -47,10 +54,15 @@ try {
 </head>
 <link rel='stylesheet' href="style/stylesheets/screen.css">
 	<body>
+<div id='container'>
+<div class='header'>
+	<div class='logo'><img src="style/img/shutterstock_304609643.jpg" width='50px' height='50px' /> Not My Candle</div>
+	<menu><div class='lfmn'><a href='candles.php?status=1&page=1'>Lit Candles</a> <a href='candles.php?status=2&page=1'>Extinguished Cnadles</a></div><div class='rgmn'><a href='contribute.php'>Information</a><a href='index.php'>Back To Main</a></div></menu>
+</div>
 	<div id='map'>
-<?php
-echo $html;
-?>
+	<?php
+	echo $html;
+	?>
 	</div>
 	</body>
 </html>

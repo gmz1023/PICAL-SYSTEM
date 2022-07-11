@@ -67,89 +67,307 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   display: block;
 }
 
-/* line 7, ../sass/screen.scss */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes blink-caret {
+  animation-iteration-count: 1;
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
+}
+/* CSS Document */
+/* line 8, ../sass/screen.scss */
 html, body {
   background-color: #313131;
 }
 
-/* line 12, ../sass/screen.scss */
+/* line 11, ../sass/screen.scss */
+body {
+  font-family: Baskerville, "Palatino Linotype", Palatino, "Century Schoolbook L", "Times New Roman", "serif";
+}
+
+/* line 14, ../sass/screen.scss */
 #map {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-wrap: wrap;
   background-color: #1E9E98;
+  width: 85vw;
+  height: 55vh;
+  margin-top: 4vh;
 }
-/* line 16, ../sass/screen.scss */
+/* line 22, ../sass/screen.scss */
 #map .tile {
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
   border: 1px solid black;
   display: inline-block;
   flex-grow: 2;
-  height: 100px;
-  width: calc(100% * (1/6) - 10px - 1px);
+  line-height: 4vh;
+  height: 4vh;
+  width: calc(100% * (1/17) - 10px - 1px);
 }
-/* line 22, ../sass/screen.scss */
+/* line 32, ../sass/screen.scss */
 #map .tile.land {
   background-color: #098414;
 }
+/* line 35, ../sass/screen.scss */
+#map .tile.water {
+  background-color: #1E9E98;
+}
+/* line 38, ../sass/screen.scss */
+#map .tile.occupied a {
+  color: #000 !important;
+  text-decoration: none;
+}
+/* line 41, ../sass/screen.scss */
+#map .tile.occupied a:visited {
+  color: #fff !important;
+}
 
-/* line 28, ../sass/screen.scss */
+/* line 48, ../sass/screen.scss */
+#container {
+  margin: 0 auto;
+  width: 90vw;
+}
+/* line 51, ../sass/screen.scss */
+#container .header {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px dashed black;
+  background-color: #fff;
+}
+/* line 56, ../sass/screen.scss */
+#container .header .logo {
+  padding: 2em;
+  font-size: 1.25rem;
+}
+/* line 58, ../sass/screen.scss */
+#container .header .logo img {
+  vertical-align: middle;
+}
+/* line 63, ../sass/screen.scss */
+#container .header menu {
+  display: flex;
+  width: 100%;
+  border-top: 1px solid black;
+  text-align: right;
+}
+/* line 68, ../sass/screen.scss */
+#container .header menu .lfmn {
+  flex-grow: 1;
+  text-align: left;
+  display: inline-flex;
+  width: 50%;
+}
+/* line 75, ../sass/screen.scss */
+#container .header menu .rgmn {
+  flex-grow: 1;
+  text-align: right;
+  display: inline-flex;
+  width: 50%;
+}
+/* line 82, ../sass/screen.scss */
+#container .header menu a {
+  text-decoration: none;
+  text-align: center;
+  color: #141290;
+  font-weight: bold;
+  padding: 1em;
+  display: inline-block;
+  width: 50%;
+}
+/* line 90, ../sass/screen.scss */
+#container .header menu a:hover {
+  font-style: italic;
+}
+/* line 96, ../sass/screen.scss */
+#container .stats {
+  text-align: right;
+  padding: 2em;
+}
+/* line 101, ../sass/screen.scss */
+#container .reg {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #f1f1f1;
+  width: 100%;
+}
+/* line 106, ../sass/screen.scss */
+#container .reg .top {
+  padding: 2em;
+  background-color: #333;
+  width: 100%;
+  text-transform: uppercase full-width;
+  color: #fff;
+  font-size: 1.25rem;
+  text-align: center;
+}
+/* line 116, ../sass/screen.scss */
+#container .reg .fb-row {
+  width: 100%;
+  border-bottom: 1px dashed grey;
+}
+/* line 119, ../sass/screen.scss */
+#container .reg .fb-row .label, #container .reg .fb-row .fb-cell {
+  box-sizing: border-box;
+  display: inline-flex;
+  padding: 1em;
+  width: 20%;
+}
+/* line 125, ../sass/screen.scss */
+#container .reg .fb-row .label {
+  background-color: #222;
+  color: #fff;
+}
+
+/* line 133, ../sass/screen.scss */
+#nav {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 1em;
+}
+
+/* line 138, ../sass/screen.scss */
+#history {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #f1f1f1;
+}
+/* line 144, ../sass/screen.scss */
+#history .profile-pic {
+  text-align: center;
+}
+/* line 146, ../sass/screen.scss */
+#history .profile-pic img {
+  margin: 0 auto;
+  max-height: 250px;
+  max-width: 250px;
+}
+/* line 151, ../sass/screen.scss */
+#history .profile-pic h2 {
+  font-size: 1.3rem;
+}
+/* line 155, ../sass/screen.scss */
+#history section {
+  background-color: #fff;
+  margin: 15px;
+  text-align: center;
+  flex-grow: 1;
+  border: 1px solid black;
+  flex-basis: auto;
+}
+/* line 156, ../sass/screen.scss */
+#history section.action-bar {
+  padding: 1em;
+  flex-basis: 100%;
+}
+/* line 160, ../sass/screen.scss */
+#history section.action-bar h2 {
+  font-size: 1.5rem;
+}
+/* line 171, ../sass/screen.scss */
+#history section h1 {
+  font-weight: bold;
+  padding: 1em 1.25em 0 1em;
+  font-size: 2rem;
+}
+/* line 176, ../sass/screen.scss */
+#history section dl {
+  text-align: left;
+  padding: 2rem;
+}
+/* line 178, ../sass/screen.scss */
+#history section dl dt {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+/* line 182, ../sass/screen.scss */
+#history section dl dd {
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+
+/* line 190, ../sass/screen.scss */
 #console {
-  background-color: 333;
+  background-color: #f1f1f1;
   float: right;
-  width: 78vw;
+  width: 70vw;
   height: 100vh;
   overflow: scroll;
 }
-/* line 34, ../sass/screen.scss */
+/* line 197, ../sass/screen.scss */
 #console .log_con {
   position: relative;
-  top: 4vh;
   font-weight: bold;
   display: block;
 }
-/* line 37, ../sass/screen.scss */
+/* line 199, ../sass/screen.scss */
 #console .log_con div {
   border-bottom: 1px solid black;
   padding: 1em;
   color: #fff;
   font-weight: bold;
 }
-/* line 45, ../sass/screen.scss */
+/* line 207, ../sass/screen.scss */
+#console .log_con .info {
+  padding: 1.5em;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid black;
+}
+/* line 213, ../sass/screen.scss */
 #console .log_con .red {
   background-color: #660A0C;
   color: #fff;
 }
-/* line 49, ../sass/screen.scss */
-#console .log_con .dead {
+/* line 217, ../sass/screen.scss */
+#console .log_con .death, #console .log_con .dead {
   background-color: #151414;
   border: 1px dashed red;
 }
-/* line 53, ../sass/screen.scss */
+/* line 221, ../sass/screen.scss */
 #console .log_con .green, #console .log_con .happy {
   background-color: #138E1D;
 }
-/* line 57, ../sass/screen.scss */
+/* line 224, ../sass/screen.scss */
+#console .log_con .rights {
+  background-color: #050078;
+  color: gold;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+/* line 230, ../sass/screen.scss */
 #console .log_con .blue {
   background-color: #11369C;
   color: #fff;
 }
-/* line 62, ../sass/screen.scss */
-#console .stats {
+
+/* line 237, ../sass/screen.scss */
+.regmenu {
   background-color: #f1f1f1;
-  color: #000;
-  width: 100%;
-  position: static;
-  top: 0;
-  line-height: 4vh;
-  font-weight: bold;
-  height: 4vh;
 }
-
-/* line 74, ../sass/screen.scss */
+/* line 239, ../sass/screen.scss */
 .regmenu a {
+  display: inline-block;
   padding: 15px;
+  text-align: center;
 }
 
-/* line 78, ../sass/screen.scss */
+/* line 246, ../sass/screen.scss */
 #registry {
   float: left;
   box-sizing: border-box;
@@ -157,23 +375,23 @@ html, body {
   overflow: scroll;
   height: 100vh;
 }
-/* line 85, ../sass/screen.scss */
+/* line 253, ../sass/screen.scss */
 #registry ul {
   box-sizing: border-box;
   background-color: #f1f1f1;
 }
-/* line 88, ../sass/screen.scss */
+/* line 256, ../sass/screen.scss */
 #registry ul li {
   margin-left: 25px;
   padding: 15px;
   border-bottom: 1px solid black;
 }
-/* line 94, ../sass/screen.scss */
+/* line 262, ../sass/screen.scss */
 #registry ul li a.alive {
   color: darkgreen;
   font-weight: bold;
 }
-/* line 98, ../sass/screen.scss */
+/* line 266, ../sass/screen.scss */
 #registry ul li a.dead {
   color: black;
   font-weight: bold;

@@ -26,6 +26,7 @@
 	<h2>Contact Me</h2>
 	<a href='twitter.com/gmz1023'>Twitter</a>
 	<a href='mailto:patrick.pierson333@outlook.com'>email</a>
+	<a href='https://discord.gg/SyEZEray2G'>Discord</a>
 	
 <section class='changelog'>
 	<h1>Recent Changes</h1>

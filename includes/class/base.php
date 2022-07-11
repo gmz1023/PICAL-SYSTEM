@@ -2,7 +2,7 @@
 /*
 	Basic Functions
 */
-class base extends maths
+class base extends users
 {
 	function __construct($db, $loop)
 	{
@@ -11,7 +11,18 @@ class base extends maths
 		#$this->debugger();
 		$this->population = $this->totalPopulation();
 	}
-	function LogData($msg,$color,$level)
+	function steralizeGets($get)
+	{
+		$$get = filter_input(INPUT_GET, 'term', FILTER_SANITIZE_SPECIAL_CHARS);
+		$get = filter_input(INPUT_GET, 'term', FILTER_SANITIZE_ENCODED);
+		return $get;
+	}
+	function make_seed()
+	{
+	  list($usec, $sec) = explode(' ', microtime());
+	  return $sec + $usec * 1000000;
+	}
+		function LogData($msg,$color,$level)
 	{
 		$sql = "INSERT INTO console(text,color,level) VALUES (:msg,:color,:lvl)";
 		$que = $this->db->prepare($sql);

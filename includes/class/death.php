@@ -3,7 +3,7 @@ class death extends supplies
 {
 	function kill($cid, $r)
 	{
-		$sql = "INSERT INTO gravestones SELECT * FROM citizens WHERE cid = {$cid};";
+		$sql = "UPDATE citizens SET cod = '{$r}', died_on = (SELECT simTime FROM timestep LIMIT 1) WHERE cid = {$cid}; INSERT INTO gravestones SELECT * FROM citizens WHERE cid = {$cid};";
 		$sql2 = "DELETE FROM citizens WHERE cid = {$cid};";
 		$sql3 = "INSERT INTO dead_dna SELECT * FROM genetics WHERE cid = {$cid};";
 		$sql4 = "DELETE FROM genetics WHERE cid = {$cid};";
@@ -18,7 +18,6 @@ class death extends supplies
 				$this->db->exec($sql4);
 			}
 		catch(PDOException $e) { 
-			debug_backtrace();
 			die($e->getMessage());
 		}
 		$this->deathvorce($cid);
@@ -67,14 +66,14 @@ class death extends supplies
 			$c = strlen($gen1);
 
 
-			if($c < 101)
+			if($c < GENE_MAX)
 			{
 				//* Not enough genes, needs to be retooled)
 				//echo $c."\n";
 				$val = 101-$c;
 				//$this->healthHit($cid,$val,'Genetic Misformia');
 			}
-			if($c > 101)
+			if($c > GENE_MAX)
 			{
 				//* This one works as it should but should be retooled
 				$val = $c - 101;

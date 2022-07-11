@@ -3,4 +3,7 @@
 <file name="ie.scssc" server="66.45.250.174" local="133001540140000000" remote="133001623800000000" Dst="2" />
 <file name="print.scssc" server="66.45.250.174" local="133001540140000000" remote="133001623800000000" Dst="2" />
 <file name="screen.scssc" server="66.45.250.174" local="133001540600000000" remote="133001623800000000" Dst="2" />
+<file name="ie.scssc" server="aslo.tech/notmycandle.com/" local="133001540140000000" remote="133019562600000000" Dst="2" />
+<file name="print.scssc" server="aslo.tech/notmycandle.com/" local="133001540140000000" remote="133019562600000000" Dst="2" />
+<file name="screen.scssc" server="aslo.tech/notmycandle.com/" local="133001540600000000" remote="133019562600000000" Dst="2" />
 </dwsync>
